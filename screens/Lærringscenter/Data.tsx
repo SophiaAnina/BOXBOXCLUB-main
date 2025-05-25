@@ -4,31 +4,31 @@ const Reglerarticles = [
   {
     id: 1,
     title: "Hvad er et Sprint Race i Formel 1?",
-    subtitle: "Alt om sprint-formatet i Formel 1", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "hvad-er-sprint",
-        subtitle: "Hvad er et sprint race?",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Sprint-racet er en nyere tilføjelse til Formel 1-kalenderen og fungerer som et supplement til den traditionelle Grand Prix-weekend. Formatet blev introduceret for at tilføje ekstra spænding og konkurrence, og det ændrer strukturen på løbsweekenden markant. Et sprint race (eller "Sprint") er et kortere løb, der normalt afvikles om lørdagen på udvalgte løbsweekender. I modsætning til det almindelige Grand Prix, der typisk varer ca. 305 km, er sprint-løbet kun omkring 100 km langt og varer cirka 30 minutter uden obligatoriske pitstop.`
       },
       {
         id: "format",
-        subtitle: "Format for sprint-weekenden",
+        subtitle: "DATA DIVE IN", // Changed
         content: `En sprint-weekend følger et andet tidsplan end en standard løbsweekend:\n\nFredag\n- Træning 1 (FP1): En enkelt træningssession på 60 minutter.\n- Kvalifikation: Denne kvalifikation afgør startplaceringerne til Grand Prix’et (søndagens løb), ikke til sprinten.\n\nLørdag\n- Sprint Shootout: En kortere kvalifikation, der afgør startplaceringerne til sprint-løbet. Den minder om traditionel kvalifikation, men med kortere sessions:\n  - SQ1: 12 minutter\n  - SQ2: 10 minutter\n  - SQ3: 8 minutter\n- Sprint Race: Et løb på ca. 100 km uden pitstop (medmindre det er nødvendigt). Her gives point til top 8.\n\nSøndag\n- Det almindelige Grand Prix-løb.`
       },
       {
         id: "pointfordeling",
-        subtitle: "Pointfordeling i sprinten",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Sprint-løbet giver færre point end Grand Prix’et, men kan stadig have afgørende betydning i verdensmesterskabet.`
       },
       {
         id: "regler",
-        subtitle: "Vigtige regler og detaljer",
+        subtitle: "DATA DIVE IN", // Changed
         content: `- Dækvalg: Der er specifikke krav til dækvalg under Sprint Shootout (f.eks. medium i SQ1 og SQ2, soft i SQ3).\n- Ingen obligatoriske pitstops: Sprinten er designet som et sprint-løb, så der kræves ikke pitstop.\n- Ingen indflydelse på Grand Prix: Resultatet af sprinten påvirker ikke startplaceringen til søndagens løb – det bestemmes udelukkende af fredagens kvalifikation.\n- Sprint-weekender afvikles kun ved udvalgte Grand Prix'er (typisk 6-8 gange pr. sæson).`
       },
       {
         id: "formaal",
-        subtitle: "Formål med sprint-formatet",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Sprint-formatet er designet til at øge underholdningsværdien og tilføje endnu en konkurrencemæssig dimension til løbsweekenden. Det giver fansne mere action og holdene en ekstra mulighed for at score vigtige point.`
       }
     ]
@@ -36,21 +36,21 @@ const Reglerarticles = [
   {
     id: 2,
     title: "Hvad er DRS i Formel 1?",
-    subtitle: "Forklaring af DRS-systemet", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "hvad-er-drs",
-        subtitle: "Hvad er DRS?",
+        subtitle: "DATA DIVE IN", // Changed
         content: `DRS (Drag Reduction System) er et system, der tillader biler at reducere luftmodstanden ved at åbne en klap på bagvingen under visse betingelser.`
       },
       {
         id: "hvordan-fungerer-drs",
-        subtitle: "Hvordan fungerer det?",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Når en bil er inden for én sekund af bilen foran på en DRS-zone, kan føreren aktivere systemet og dermed øge topfarten.`
       },
       {
         id: "regler-for-drs",
-        subtitle: "Hvornår må DRS bruges?",
+        subtitle: "DATA DIVE IN", // Changed
         content: `DRS må kun bruges i definerede zoner på banen og først efter to omgange er kørt i løbet.`
       }
     ]
@@ -58,16 +58,16 @@ const Reglerarticles = [
   {
     id: 3,
     title: "Hvad er Safety Car i Formel 1?",
-    subtitle: "Sikkerhedsbilen i Formel 1", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "hvad-er-safety-car",
-        subtitle: "Hvad er Safety Car?",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Safety Car er en bil, der bruges til at neutralisere løbet under farlige forhold, såsom uheld eller dårligt vejr.`
       },
       {
         id: "hvornår-bruges-safety-car",
-        subtitle: "Hvornår bruges Safety Car?",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Safety Car aktiveres, når der er behov for at beskytte førerne og officials på banen. Når den aktiveres, skal alle biler følge den i et kontrolleret tempo.`
       }
     ]
@@ -75,16 +75,16 @@ const Reglerarticles = [
   {
     id: 4,
     title: "Formel 1 Kvalifikation Forklaret",
-    subtitle: "Sådan fungerer kvalifikationen", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "format",
-        subtitle: "Format",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Kvalifikationen består af tre sessioner: Q1, Q2 og Q3. Efter hver session elimineres de langsomste biler.`
       },
       {
         id: "startplacering",
-        subtitle: "Startplacering",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Den hurtigste bil i Q3 starter forrest i Grand Prix'et.`
       }
     ]
@@ -92,16 +92,16 @@ const Reglerarticles = [
   {
     id: 5,
     title: "Hvad er Parc Fermé-reglen?",
-    subtitle: "Regler for bilindstillinger efter kvalifikation", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "hvad-er-parc-ferme",
-        subtitle: "Hvad betyder det?",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Parc Fermé er en regel, der forhindrer teams i at ændre væsentlige bilindstillinger efter kvalifikationen.`
       },
       {
         id: "regler",
-        subtitle: "Hvornår gælder det?",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Reglen træder i kraft fra kvalifikationens start og gælder frem til løbets start.`
       }
     ]
@@ -109,16 +109,16 @@ const Reglerarticles = [
   {
     id: 6,
     title: "Historien om Formel 1-verdensmesterskabet",
-    subtitle: "F1-mesterskabets historie", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "begyndelsen",
-        subtitle: "Begyndelsen",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Det første officielle Formel 1 verdensmesterskab blev afholdt i 1950 på Silverstone-banen.`
       },
       {
         id: "udviklingen",
-        subtitle: "Udvikling gennem tiden",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Sporten har udviklet sig fra farlige løb til en teknologisk avanceret konkurrence med stor global popularitet.`
       }
     ]
@@ -126,16 +126,16 @@ const Reglerarticles = [
   {
     id: 7,
     title: "Banerekorder i Formel 1",
-    subtitle: "De hurtigste tider på F1-baner", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "hvad-er-banerekord",
-        subtitle: "Hvad er en banerekord?",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Den hurtigste tid sat på en bestemt bane under officielle løbsforhold.`
       },
       {
         id: "eksempler",
-        subtitle: "Eksempler",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Lewis Hamilton har rekord på Silverstone, mens Max Verstappen har sat flere banerekorder i nyere tid.`
       }
     ]
@@ -143,16 +143,16 @@ const Reglerarticles = [
   {
     id: 8,
     title: "Hvad er en Virtual Safety Car?",
-    subtitle: "Virtuel sikkerhedsbil forklaret", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "hvad-er-vsc",
-        subtitle: "Forklaring",
+        subtitle: "DATA DIVE IN", // Changed
         content: `En Virtual Safety Car (VSC) bruges til at neutralisere et løb uden at sende en fysisk safety car på banen.`
       },
       {
         id: "formaal",
-        subtitle: "Formål",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Formålet er at beskytte førere og officials ved uheld uden at afbryde løbet fuldstændigt.`
       }
     ]
@@ -160,16 +160,16 @@ const Reglerarticles = [
   {
     id: 9,
     title: "Formel 1-sæsonens opbygning",
-    subtitle: "F1-sæson struktur", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "antal-loeb",
-        subtitle: "Antal løb",
+        subtitle: "DATA DIVE IN", // Changed
         content: `En Formel 1-sæson består typisk af 22-24 Grand Prix-løb fordelt over hele verden.`
       },
       {
         id: "point-system",
-        subtitle: "Point system",
+        subtitle: "DATA DIVE IN", // Changed
         content: `De 10 bedste i hvert løb scorer point, med 25 point til vinderen.`
       }
     ]
@@ -177,16 +177,16 @@ const Reglerarticles = [
   {
     id: 10,
     title: "Hvad er en pitstop-strategi?",
-    subtitle: "Strategi bag pitstops i F1", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "pitstop-taktik",
-        subtitle: "Pitstop-taktik",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Holdene planlægger nøje deres pitstop for at optimere dækskifte og undgå trafik.`
       },
       {
         id: "under-safety-car",
-        subtitle: "Under Safety Car",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Pitstop under Safety Car kan give gratis tid, da feltet kører langsommere.`
       }
     ]
@@ -197,16 +197,16 @@ const DataArticles = [
   {
     id: 1,
     title: "Hurtigste Banerekorder i Formel 1",
-    subtitle: "De hurtigste omgange i F1-historien", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "definition",
-        subtitle: "Hvad er en banerekord?",
+        subtitle: "DATA DIVE IN", // Changed
         content: `En banerekord er den hurtigste omgangstid nogensinde sat på en bane under et Formel 1-løb.`
       },
       {
         id: "eksempler",
-        subtitle: "Eksempler",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Lewis Hamilton satte i 2020 banerekorden på Silverstone med 1:24.303, mens Max Verstappen slog banen i Abu Dhabi med 1:26.103 i 2021.`
       }
     ]
@@ -214,16 +214,16 @@ const DataArticles = [
   {
     id: 2,
     title: "Flest Grand Prix-sejre i historien",
-    subtitle: "Førere med flest sejre", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "rekordholdere",
-        subtitle: "Rekordholdere",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Lewis Hamilton og Michael Schumacher deler rekorden for flest Grand Prix-sejre med hver 91 sejre.`
       },
       {
         id: "aktive-foerere",
-        subtitle: "Aktive førere med flest sejre",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Max Verstappen, Fernando Alonso og Charles Leclerc er blandt de mest vindende aktive førere.`
       }
     ]
@@ -231,21 +231,21 @@ const DataArticles = [
   {
     id: 3,
     title: "De Mest Legendariske Formel 1-baner",
-    subtitle: "Ikoniske F1-baner", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "monaco",
-        subtitle: "Monaco Grand Prix",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Det mest ikoniske løb, afholdt siden 1929 gennem Monacos gader med minimal plads og høj risiko.`
       },
       {
         id: "spa",
-        subtitle: "Spa-Francorchamps",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Belgisk bane kendt for Eau Rouge og Raidillon — en af de mest udfordrende sektioner i motorsport.`
       },
       {
         id: "monza",
-        subtitle: "Monza",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Italiens tempel for fart, med banerekorder og topfarter over 360 km/t.`
       }
     ]
@@ -253,34 +253,33 @@ const DataArticles = [
   {
     id: 4,
     title: "Tophastigheder i Formel 1",
-    subtitle: "De højeste hastigheder i sporten", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "hastighedsrekord",
-        subtitle: "Højeste målte hastighed",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Valtteri Bottas nåede 372.5 km/t under kvalifikationen til 2016 Mexican Grand Prix.`
       },
       {
         id: "nutidige-topfarter",
-        subtitle: "Topfarter i dag",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Moderne biler rammer typisk 330-350 km/t på langsider som Monza og Baku.`
       }
     ]
   },
   {
-
     id: 5,
     title: "Mest Vindende Konstruktorer",
-    subtitle: "De mest succesfulde teams", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "historisk-top",
-        subtitle: "Historisk top 3",
+        subtitle: "DATA DIVE IN", // Changed
         content: `1. Ferrari (over 240 sejre)\n2. McLaren (180+)\n3. Mercedes (mere end 125 sejre siden 2010).`
       },
       {
         id: "dominante-perioder",
-        subtitle: "Dominante perioder",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Mercedes dominerede mellem 2014-2020, mens Ferrari havde stærke år i 2000'erne.`
       }
     ]
@@ -288,16 +287,16 @@ const DataArticles = [
   {
     id: 6,
     title: "Flest Verdensmesterskaber",
-    subtitle: "Førere med flest titler", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "foerere",
-        subtitle: "Førere med flest titler",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Lewis Hamilton og Michael Schumacher har begge vundet verdensmesterskabet 7 gange.`
       },
       {
         id: "aktive",
-        subtitle: "Aktuelle mestre",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Max Verstappen har vundet tre titler i træk fra 2021-2023.`
       }
     ]
@@ -305,16 +304,16 @@ const DataArticles = [
   {
     id: 7,
     title: "Længste Formel 1-løb",
-    subtitle: "De længste løb i tid og distance", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "tid",
-        subtitle: "Længste løb i tid",
+        subtitle: "DATA DIVE IN", // Changed
         content: `2021 Belgian Grand Prix blev det længste i historien med over 3 timer grundet regn og forsinkelser.`
       },
       {
         id: "afstand",
-        subtitle: "Længste distance",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Indianapolis 500, da det var en del af F1-kalenderen (1950-1960), havde længste distance på over 804 km.`
       }
     ]
@@ -322,16 +321,16 @@ const DataArticles = [
   {
     id: 8,
     title: "Flest Pole Positions",
-    subtitle: "Førere med flest pole positions", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "rekordholder",
-        subtitle: "Rekordholder",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Lewis Hamilton har rekorden med over 104 pole positions i karrieren.`
       },
       {
         id: "klassiske-navne",
-        subtitle: "Legendariske navne",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Ayrton Senna var kendt for sine kvalifikationer og satte 65 pole positions.`
       }
     ]
@@ -339,16 +338,16 @@ const DataArticles = [
   {
     id: 9,
     title: "Største Formel 1-rivaliseringer",
-    subtitle: "De mest intense rivaliseringer", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "senna-prost",
-        subtitle: "Senna vs Prost",
+        subtitle: "DATA DIVE IN", // Changed
         content: `En intens rivalisering fra 1988-1993 mellem Ayrton Senna og Alain Prost.`
       },
       {
         id: "hamilton-verstappen",
-        subtitle: "Hamilton vs Verstappen",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Dramatisk VM-duel i 2021-sæsonen kulminerede med et kontroversielt løb i Abu Dhabi.`
       }
     ]
@@ -356,16 +355,16 @@ const DataArticles = [
   {
     id: 10,
     title: "Formel 1’s Ældste Aktive Bane",
-    subtitle: "De ældste baner i F1", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "monaco",
-        subtitle: "Monaco Grand Prix",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Monaco har været på kalenderen siden 1950 og er den ældste kontinuerligt afholdte bane.`
       },
       {
         id: "spa",
-        subtitle: "Spa-Francorchamps",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Spa er blandt de ældste, oprindeligt åbnet i 1921 og en fast del af Formel 1 siden 1950.`
       }
     ]
@@ -375,16 +374,16 @@ const F1DriverArticles = [
   {
     id: 1,
     title: "Lewis Hamilton: En Formel 1-legende",
-    subtitle: "Historien om Lewis Hamilton", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "begyndelsen",
-        subtitle: "Tidlige år",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Lewis Hamilton begyndte at køre gokart som otteårig og blev hurtigt bemærket af McLaren. I 2007 debuterede han i Formel 1 og imponerede med en andenplads i mesterskabet allerede i sin første sæson.`
       },
       {
         id: "meritter",
-        subtitle: "Titler og rekorder",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Hamilton har vundet 7 verdensmesterskaber og har flest Grand Prix-sejre og pole positions nogensinde. Han er kendt for sin evne i regnvejrsløb og stærke kvalifikationer.`
       }
     ]
@@ -392,16 +391,16 @@ const F1DriverArticles = [
   {
     id: 2,
     title: "Max Verstappen: Den Nye Konge af Formel 1",
-    subtitle: "Historien om Max Verstappen", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "tidlig-karriere",
-        subtitle: "Rekordtidlig debut",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Max Verstappen debuterede som 17-årig i Formel 1 i 2015 og blev den yngste løbsvinder i historien ved Spaniens Grand Prix 2016.`
       },
       {
         id: "dominans",
-        subtitle: "Ny dominans",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Verstappen har domineret sporten siden 2021 og vundet tre verdensmesterskaber i træk. Han er kendt for sin aggressive kørestil og uovertrufne kontrol.`
       }
     ]
@@ -409,16 +408,16 @@ const F1DriverArticles = [
   {
     id: 3,
     title: "Fernando Alonso: Mesterens Comeback",
-    subtitle: "Historien om Fernando Alonso", // Added
+    subtitle: "DATA DIVE IN", // Changed
     sections: [
       {
         id: "karriere",
-        subtitle: "Tidlige triumfer",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Alonso blev verdensmester i 2005 og 2006 med Renault og brød dermed Michael Schumachers dominans.`
       },
       {
         id: "come-back",
-        subtitle: "Comeback og nutid",
+        subtitle: "DATA DIVE IN", // Changed
         content: `Efter en pause fra sporten vendte Alonso tilbage i 2021 og kører nu for Aston Martin, hvor han stadig viser storform.`
       }
     ]
