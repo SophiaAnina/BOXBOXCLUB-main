@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, FlatList, Text, TextInput, Alert, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState, useRef } from 'react'
+import { StyleSheet, View, FlatList, Text, TextInput, Alert, TouchableOpacity, RefreshControl, Animated, ScrollView } from 'react-native'
 import { supabase } from '../lib/supabase'
 import { Button, Avatar } from '@rneui/themed'
+import { FontAwesome } from '@expo/vector-icons';
 
 import { useFonts, DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold} from "@expo-google-fonts/dynapuff";
 import { AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, } from "@expo-google-fonts/anek-devanagari";
 import { SpecialGothicExpandedOne_400Regular } from "@expo-google-fonts/special-gothic-expanded-one";
 import { SvgXml } from 'react-native-svg'
 import AntDesign from '@expo/vector-icons/AntDesign';
-
+import Frida from '../assets/FridaFart/frida-done-flag.svg'
 
 export default function MessagesScreen() {
   const [messages, setMessages] = useState<{ id: number; username: string; avatar_url: string; post: string }[]>([])
@@ -19,10 +20,26 @@ export default function MessagesScreen() {
   const [fontSize, setFontSize] = useState(20)
   const [likes, setLikes] = useState<{ [key: number]: number }>({});
   const [dislikes, setDislikes] = useState<{ [key: number]: number }>({});
+  const spinAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     fetchMessages()
   }, [])
+
+  useEffect(() => {
+    if (loading) {
+      Animated.loop(
+        Animated.timing(spinAnim, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true,
+        })
+      ).start();
+    } else {
+      spinAnim.stopAnimation();
+      spinAnim.setValue(0);
+    }
+  }, [loading]);
 
   async function sendMessage() {
     if (!newMessage.trim()) return;
@@ -122,20 +139,58 @@ export default function MessagesScreen() {
 
   return (
     <View style={styles.container}>
+      <Frida style={styles.frida} width={140} height={140}  />
       <Text style={styles.title}>BOX BOX Chat</Text>
+      <ScrollView style={styles.messageList}>
+      {loading && (
+        <Animated.View style={[styles.tireSpinnerOverlay, {
+          transform: [{
+            rotate: spinAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: ['0deg', '360deg']
+            })
+          }]
+        }]}>
+          <FontAwesome name="circle" size={40} color="#CD1F4D" />
+          <Text style={styles.pullText}>Slip for at opdatere</Text>
+        </Animated.View>
+      )}
       <View style={styles.messageList}>
-      <FlatList
-        data={messages}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-        refreshing={loading}
-        onRefresh={fetchMessages}
-        
-      />
-      </View >
-      <TouchableOpacity style={styles.postButton} onPress={() => setShowInput(true)}>
-        <AntDesign name="pluscircle" size={48}color={'#CD1F4D'} />
-      </TouchableOpacity>
+        {loading && (
+          <Animated.View style={[styles.tireSpinnerOverlay, {
+            transform: [{
+              rotate: spinAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0deg', '360deg']
+              })
+            }]
+          }]}>
+            <FontAwesome name="circle" size={40} color="#CD1F4D" />
+            <Text style={styles.pullText}>Slip for at opdatere</Text>
+          </Animated.View>
+        )}
+        <FlatList
+          data={messages}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={fetchMessages}
+              colors={['#CD1F4D']}
+              tintColor="#CD1F4D"
+              title="Træk ned for at opdatere"
+              titleColor="#CD1F4D"
+            />
+          }
+        />
+      </View>
+      </ScrollView> 
+      {!showInput && (
+        <TouchableOpacity style={styles.postButton} onPress={() => setShowInput(true)}>
+          <AntDesign name="pluscircle" size={48} color={'#CD1F4D'} />
+        </TouchableOpacity>
+      )}
 
       {showInput && (
         <View style={styles.overlay}>
@@ -164,20 +219,19 @@ export default function MessagesScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    paddingVertical: 100,
     backgroundColor: '#fff',
-    paddingBottom: 100,
   },
   title:{
   fontFamily:'SpecialGothicExpandedOne_400Regular',
-  fontSize: 36,
-  fontWeight: 'bold',
+  fontSize: 28,
   color:'#112045',
   marginTop:50,
+  marginLeft: 20,
   },
   postButton: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 150,
     right: 20,
     zIndex: 10,
     backgroundColor:'white',
@@ -185,12 +239,12 @@ const styles = StyleSheet.create({
   },
   Button:{
     position: 'absolute',
-    top: 70,
+    top: 60,
     right: 20,
     backgroundColor: '#CD1F4D',
-    borderRadius: 12,
+    borderRadius: 20,
     paddingVertical: 12,
-    paddingHorizontal: 16,
+    paddingHorizontal: 30,
     marginRight: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -199,7 +253,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 24,
     fontFamily:'AnekDevanagari_400Regular',
-    fontWeight: 'bold',
+    
   },
   overlay: {
     position: 'absolute',
@@ -225,13 +279,12 @@ const styles = StyleSheet.create({
   inputTitle: {
     fontSize: 24,
     fontFamily:'SpecialGothicExpandedOne_400Regular',
-    fontWeight: 'bold',
+    
     marginBottom: 16,
     color:'#112045',
   },
   description: {
-    fontSize: 14,
-
+    fontSize: 12,
     fontFamily:'AnekDevanagari_400Regular',
     marginBottom: 16,
     marginTop: 24,
@@ -241,6 +294,7 @@ const styles = StyleSheet.create({
   messageList: {
     backgroundColor:'#112045',
     color:'#fff',
+    
   },
   message: {
     color: '#fff',
@@ -250,6 +304,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#fff',
     borderBottomWidth: 1,
     paddingBottom: 20,
+    width: '100%',
   },
 
   messageItem: {
@@ -262,9 +317,10 @@ const styles = StyleSheet.create({
     
   },
   username: {
-    fontWeight: 'bold',
+    fontFamily: 'AnekDevanagari_600SemiBold',
     color: '#fff',
-    fontSize: 24,
+    fontSize: 20,
+    marginBottom: 4,
   },
   avatar: {
     objectFit: 'fill',
@@ -286,6 +342,30 @@ const styles = StyleSheet.create({
   likeCount: {
     marginLeft: 4,
     color: 'white',
+  },
+  frida: {
+    position: 'absolute',
+    top:50,
+    right: -60,
+    transform: [{ rotate: '-50deg' }],
+    
+  },
+  tireSpinnerOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(28, 25, 38, 0.8)',
+    zIndex: 1,
+  },
+  pullText: {
+    color: '#CD1F4D',
+    fontSize: 16,
+    marginTop: 8,
+    fontFamily: 'AnekDevanagari_400Regular',
   },
   
 })

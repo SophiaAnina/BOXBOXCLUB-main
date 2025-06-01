@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { F1NewsArticles } from "./Data";
 
 
+
 export default function NewsScreen() {
     const navigation = useNavigation();
     const [search, setSearch] = useState("");
@@ -21,25 +22,20 @@ export default function NewsScreen() {
     );
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container}>          
             <Text style={styles.title}>Lær’ mere</Text>
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
                     placeholder="Søg her"
                     value={search}
-                    onChangeText={setSearch}
-                />
-                <TouchableOpacity style={styles.button}>
-                    <AntDesign style={styles.filter} name="filter" size={30} color="#CD1F4D" />
-                </TouchableOpacity>
+                    onChangeText={setSearch}/>
             </View>
             <View style={styles.scrollContainer}>
-                    <ScrollView 
-                      horizontal 
+                    <ScrollView
+                      horizontal
                       showsHorizontalScrollIndicator={false}
-                      contentContainerStyle={styles.tabScroll}
-                    >
+                      contentContainerStyle={styles.tabScroll}>
                       <TouchableOpacity style={styles.tabIndicator} onPress={() => navigation.navigate('NewsScreen')}>
                         <Text style={styles.tabIndicatorText}>Nyt</Text>
                       </TouchableOpacity>
@@ -50,45 +46,80 @@ export default function NewsScreen() {
                         style={styles.tab}
                         onPress={() => navigation.navigate('ReglerScreen' )} // Navigate to ReglerScreen
                       >
-                        <Text style={styles.tabText}>Nyt</Text>
+                        <Text style={styles.tabText}>Regler</Text>
                       </TouchableOpacity>
                       <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('DriverScreen')}>
                         <Text style={styles.tabText}>Kørere</Text>
                       </TouchableOpacity>
                     </ScrollView>
             </View>
+          
             <Text style={styles.title}>Nyt</Text>
-            <FlatList
-                data={filteredArticles}
-                keyExtractor={(item) => item.id.toString()}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingVertical: 10 }}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: '#CD1F4D',
-                      padding: 16,
-                      borderRadius: 8,
-                      marginRight: 12,
-                      width: 180,
-                    }}
-                    onPress={() => handlePress(item)}
+            
+            <FlatList style={{ marginBottom: 20 }}
+              data={filteredArticles.slice(0, 4)}
+              keyExtractor={(item) => item.id.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item, index }) => (
+              <TouchableOpacity
+                  style={{
+                    backgroundColor: (index + 1) % 3 === 0 ? '#CD1F4D' : '#112045', // Every third item is red
+                    padding: 16,
+                    borderRadius: 8,
+                    marginBottom: 12,
+                    marginRight: 8,
+                    flex: 1,
+                    minWidth: 0,
+}}
+                  onPress={() => handlePress(item)}>
+                  <Text style={{ color: 'white', fontFamily:"AnekDevanagari_400Regular", fontSize: 16 }}
+                    numberOfLines={1}
+                    ellipsizeMode="tail">
+                    {item.subtitle}
+                  </Text>
+                  <Text
+                    style={{ color: 'white', fontSize: 18, fontFamily:"SpecialGothicExpandedOne_400Regular" }}
                   >
-                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>
+                    {item.title}
+      </Text>
+              </TouchableOpacity>)}/>
+              <ScrollView style={{ marginTop: 20, marginBottom: 80, height: 300, position: 'relative' }}>
+                {filteredArticles.slice(4, 11).map((item, index) => (
+                  <TouchableOpacity
+                    key={item.id.toString()}
+                    style={{
+                      backgroundColor: index % 2 === 0 ? '#112045' : '#CD1F4D', // Alternate colors
+                      padding: 16,
+                      paddingBottom: 50,
+                      borderRadius: 8,
+                      position: 'absolute',
+                      top: index * 100,
+                      zIndex: filteredArticles.length + index,
+                      width: '100%',
+                    }}
+                    onPress={() => handlePress(item)}>
+                    <Text style={{ color: 'white', fontFamily:"AnekDevanagari_400Regular", fontSize: 16 }}
+                      numberOfLines={1}
+                      ellipsizeMode="tail">
+                      {item.subtitle}
+                    </Text>
+                    <Text
+                      style={{ color: 'white', fontSize: 18, fontFamily:"SpecialGothicExpandedOne_400Regular" }}
+                    >
                       {item.title}
                     </Text>
                   </TouchableOpacity>
-                )}
-              />
-        </ScrollView>
+                ))}
+              </ScrollView>
+       </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 80,
-       paddingHorizontal: 24,
+        paddingVertical: 60,
+        paddingHorizontal: 20,
     },
     title: {
         marginTop: 20,
@@ -97,19 +128,20 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     input: {
-        height: 40,
-        width: 310,
+        width:'100%' ,
        backgroundColor:'#D9D9D9',
         borderRadius: 8,
         paddingLeft: 10,
         marginBottom: 20,
+        fontSize:20,
     },
     
     inputContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        
         marginBottom: 20,
+        fontFamily: "AnekDevanagari_400Regular",
+        fontSize: 20,
     },
      scrollContainer: {
     width: '100%',

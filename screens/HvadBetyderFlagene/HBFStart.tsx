@@ -13,11 +13,11 @@ export default function HBFStart() {
   return (
     <View style={styles.container}>
         <View style={styles.header}>
-       <TouchableOpacity onPress={() => navigation.navigate('Quiz')} style={styles.backButton}>
+       <TouchableOpacity onPress={() => navigation.navigate('QuizHome')} style={styles.backButton}>
         <AntDesign name="arrowleft" size={24} color="white" />
         <Text style={styles.backButtonText}>Tilbage</Text>
       </TouchableOpacity>
-        <Frida style={styles.frida} width={338} height={338}  />
+        <Frida style={styles.frida} width={200} height={200}  />
         </View>
         <View style={styles.info}>
       <Text style={styles.Hvidtitle}>Vi anbefaler</Text>
@@ -45,13 +45,13 @@ export default function HBFStart() {
 const styles = StyleSheet.create({
   header: { 
     backgroundColor: "#CD1F4D", 
-    aspectRatio: 1,
+    height:300,
      width: "100%" 
 },
   frida:{ 
     position:"absolute",
-     bottom:-45,
-      right: 45
+     bottom:-30,
+      right: 130,
     },
   container: {
      justifyContent: "center",
@@ -68,14 +68,14 @@ info:{
      },
   Hvidtitle: { 
     fontSize: 32,
-    fontWeight: "bold", 
+    
     marginBottom: 8, 
     color: "white", 
     fontFamily: "SpecialGothicExpandedOne_400Regular" 
 },
 title: { 
     fontSize: 32,
-    fontWeight: "bold", 
+   
     marginBottom: 8, 
     color: "#112045", 
     fontFamily: "SpecialGothicExpandedOne_400Regular" 
@@ -112,7 +112,7 @@ title: {
   startButtonText: { 
     color: "white", 
     fontSize: 24, 
-    fontFamily: 'AnekDevanagari_400Regular',
+    fontFamily: 'AnekDevanagari_700Bold',
 },
 backButton: {
     borderColor: "white",
@@ -121,7 +121,7 @@ backButton: {
     paddingVertical: 10,
     marginLeft: 10,
     marginBottom: 38,
-    marginTop: 40,
+    marginTop: 50,
     flexDirection: "row",
     paddingHorizontal: 10,
     justifyContent: "space-between",
@@ -129,9 +129,8 @@ backButton: {
   },
   backButtonText: {
     color: "white",
-    fontSize: 17,
-    fontWeight: "bold",
-    fontFamily: "Anek Devanagari",
+    fontSize: 14,
+    fontFamily: "SpecialGothicExpandedOne_400Regular",
     justifyContent: "space-between",
   },
 });

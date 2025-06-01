@@ -6,8 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import Frida from '../assets/FridaFart/frida-dæk.svg';
 
 export default function OnboardingStep3({ route }: any) {
-
-  const {selectedLevel} = route.params;
+  const { selectedLevel, email, password } = route.params; // <-- add email, password
   const navigation = useNavigation();
   const [niveau, setNiveau] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -25,7 +24,7 @@ export default function OnboardingStep3({ route }: any) {
           <Text style={styles.backButtonText}>Tilbage</Text>
         </TouchableOpacity>
         <Text style={styles.headerText}>Godt klaret!</Text>
-        <Frida width={300} height={300} style={styles.frida} />
+        <Frida width={250} height={250} style={styles.frida} />
       </View>
       <Text style={styles.title}>Du har valgt {selectedLevel}</Text>
       <Text style={styles.text}>Du kan til en hver tid ændre din preference i din profil</Text>
@@ -34,11 +33,7 @@ export default function OnboardingStep3({ route }: any) {
          style={styles.button}
          disabled={loading}
          onPress={() => {
-           console.log('Navigating to OnboardingStep4');
-           navigation.navigate('OnboardingStep4', {
-             email: route.params?.email,      // Pass email from previous step
-             password: route.params?.password // Pass password from previous step
-           });
+           navigation.navigate('OnboardingStep4', { email, password }); // <-- pass them along
          }}
        >
          <Text style={styles.buttonText}>Næste</Text>
@@ -65,7 +60,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     position: 'absolute',
-    top: '38%',
+    top: '30%',
     right: '20%',
     color: 'white',
     fontFamily: 'DynaPuff_400Regular',
@@ -76,8 +71,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    left: 0,
-    bottom: -35,
+    left: 40,
+    bottom: -25,
   },
   title: {
     fontSize: 27,

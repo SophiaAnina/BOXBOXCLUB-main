@@ -110,11 +110,11 @@ const styles = StyleSheet.create({
   content: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+   
   },
   title: {
     fontSize: 32,
-    marginTop: 18,
+  
     marginBottom: 18,
     fontWeight: 'bold',
     color: '#112045',
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   racetrackRedStart: {
     position: 'absolute',
     left: '-25%',
-    bottom: '45%',
+    bottom: '25%',
     // transform: [{ rotate: '51.218deg' }],
     
   },

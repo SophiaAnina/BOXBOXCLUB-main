@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 
 import { useFonts, DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold} from "@expo-google-fonts/dynapuff";
 import { AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, } from "@expo-google-fonts/anek-devanagari";
 import { SpecialGothicExpandedOne_400Regular } from "@expo-google-fonts/special-gothic-expanded-one";
 
+import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Frida from '../assets/FridaFart/frida-gronflag.svg';
 import Raceline from '../assets/svg/Raceline.svg';
@@ -50,6 +51,7 @@ export default function Quiz() {
 
                 setUsername(data?.username || null);
                 setXp(data?.xp || null);
+                console.log("Fetched XP:", data?.xp); // <-- Add this line
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
@@ -62,24 +64,69 @@ export default function Quiz() {
         return null;
     }
 
+    // Add this function to Quiz.tsx (copy from ProfilScreen.tsx)
+    function getTitleByXp(xp: number | null) {
+        if (xp === null) return "Ukendt";
+        if (xp < 1000) return "F1 Rookie";
+        if (xp < 2000) return "F1 Begynder";
+        if (xp < 3000) return "F1 Overtaker";
+        if (xp < 5000) return "F1 Videns Champion";
+        return "F1 Legend";
+    }
+
+    // Returns the XP threshold for the next title
+    function getNextTitleXp(xp: number | null) {
+        if (xp === null || xp < 1000) return 1000;
+        if (xp < 2000) return 2000;
+        if (xp < 3000) return 3000;
+        if (xp < 5000) return 5000;
+        return 5000; // F1 Legend is the last, so cap at 5000
+    }
+
+    // Returns the XP threshold for the current title
+    function getCurrentTitleXp(xp: number | null) {
+        if (xp === null) return 0;
+        if (xp < 1000) return 0;
+        if (xp < 2000) return 1000;
+        if (xp < 3000) return 2000;
+        if (xp < 5000) return 3000;
+        return 5000;
+    }
+
+    // Helper to get the next title
+    function getNextTitle(xp: number | null) {
+        if (xp === null) return getTitleByXp(0);
+        if (xp < 1000) return getTitleByXp(1000);
+        if (xp < 2000) return getTitleByXp(2000);
+        if (xp < 3000) return getTitleByXp(3000);
+        if (xp < 5000) return getTitleByXp(5000);
+        return "F1 Legend";
+    }
+
     return (
         <View>
             <Text style={styles.Title}>Quiz</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginLeft: 20 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                    <View style={{ flexDirection: 'row' }}>
                         <View style={styles.Circle}></View>
                         <Text style={styles.Username}>{username}</Text>
                         
                     </View>
               <Text style={styles.RemainingXp}>
-                        {xp ? targetXp - xp : targetXp} xp left to reach F1 Star
+                        {xp !== null ? getNextTitleXp(xp) - xp : getNextTitleXp(0)} xp left to reach {getNextTitle(xp)}
                     </Text>
                     <View style={styles.ProgressBarContainer}>
                         <View 
                             style={[
                                 styles.ProgressBar, 
-                                { width: `${(xp ? xp / maxXp : 0) * 100}%` }
+                                { 
+                                    width: `${
+                                        xp !== null
+                                            ? ((xp - getCurrentTitleXp(xp)) / (getNextTitleXp(xp) - getCurrentTitleXp(xp))) * 100
+                                            : 0
+                                    }%`
+                                }
                             ]}
                         />
                     </View>
@@ -107,22 +154,27 @@ export default function Quiz() {
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '70%' }}>
                <View style={styles.QuizCirce}>
-                <Gulbil style={styles.Gulbil}/>
+                <Gulbil width={120} height={120} style={styles.Gulbil}/>
                 <Startingbox style={styles.Startingbox}/>
                </View>
                 <TouchableOpacity 
-                onPress={() => navigation.navigate('Home', { screen: 'HBFStart' })}
+                onPress={() => navigation.navigate('HBFStart')}
                 style={styles.Start}>
                     <Text style={styles.StartText}>Start</Text>
                 </TouchableOpacity>
                    
 
             </View>
-            <Lillabil style={styles.Lillabil}/>
+            <Lillabil  width={120} height={120} style={styles.Lillabil}/>
 
-            <Groenbil/>
+            <Groenbil style={styles.Gronbil}  width={120} height={120}/>
+            <TouchableOpacity 
+            style={styles.ScoreboardButton}
+            onPress={() => navigation.navigate('PlayerScoreboard')}>
+                <MaterialIcons name="scoreboard" size={40} color="white" />
+            </TouchableOpacity>
             </View>
-
+            
              <Raceline style={styles.RacelineRight} width={15} height={704} />               
             </View>   
         </View>
@@ -133,18 +185,21 @@ const styles = StyleSheet.create({
     Title: {
         fontFamily: "SpecialGothicExpandedOne_400Regular",
         fontSize: 32,
-        marginTop: 80,
-        marginBottom: 24,
+        marginTop: 40,
+        marginBottom: 18,
         marginLeft: 20,
         color: '#112045',
     },
+    
     Circle: {
         marginLeft: 20,
         width: 27,
         height: 27,
         borderRadius: 50,
         backgroundColor: '#CD1F4D',
-       
+    },
+    Gulbil: {
+        marginBottom: 10,
     },
     Username: {
         fontFamily: "SpecialGothicExpandedOne_400Regular",
@@ -155,16 +210,18 @@ const styles = StyleSheet.create({
     xp: {
         fontFamily: "SpecialGothicExpandedOne_400Regular",
         fontSize: 14,
-        justifyContent: 'flex-end',
+        position: 'absolute',
+        right: 100,
         color: '#112045',
         marginTop: 16,
+        
     },
     ProgressBarContainer: {
         height: 10,
-        width: '140%',
+        width: '100%',
         backgroundColor: '#E0E0E0',
         borderRadius: 5,
-        marginHorizontal: 20,
+       marginLeft: 20,
         marginTop: 10,
     },
     ProgressBar: {
@@ -181,9 +238,8 @@ const styles = StyleSheet.create({
         paddingBottom:12,
         marginLeft:10,
         marginRight:10,
+        marginBottom:10,
         height: 120,
-       
-       
     },
     SpørgsmålText: {
         fontFamily: "AnekDevanagari_400Regular",
@@ -235,37 +291,55 @@ const styles = StyleSheet.create({
     RacelineRight: {
        position: 'absolute',
        right: 0,
-       top: 0,
+       top: -44,
     },
     Lillabil:{
      marginLeft:'auto',
-        marginRight: 'auto',
+     marginRight:'10%',
+       
+    },
+    Gronbil:{
+        marginLeft:'10%'
     },
     Startingbox:{
         position: 'absolute',
-        left:40,
-        top: 90,
+        left:30,
+        top: 65,
     },
     QuizCirce:{
         backgroundColor: '#CD1F4D',
         borderRadius: '100%',
         marginLeft:10,
         padding:20,
-
-       
+    },
+    Raceline: {
+        position: 'relative',
+        left: 0,
+        bottom:44,
     },
     Start:{
         backgroundColor: '#CD1F4D',
         paddingVertical: 12,
-        paddingHorizontal: 54,
+        paddingHorizontal: 40,
         justifyContent: 'center',
+        alignSelf:'center',
         borderRadius: 50, 
-        marginLeft:10
+        marginLeft:24,
     },
     StartText:{
         fontFamily: "AnekDevanagari_400Regular",
-        fontSize: 24,
+        fontSize: 20,
         color: 'white',
         textAlign: 'center',
+    },
+    ScoreboardButton: {
+        position: 'absolute',
+        bottom: 180,
+        right: 20,
+        backgroundColor: '#CD1F4D',
+        padding: 10,
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });

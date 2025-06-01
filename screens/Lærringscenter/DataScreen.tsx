@@ -4,10 +4,11 @@ import { useFonts, AnekDevanagari_400Regular } from "@expo-google-fonts/anek-dev
 import { SpecialGothicExpandedOne_400Regular } from "@expo-google-fonts/special-gothic-expanded-one";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
-import Dataarticles  from "./Data";
+import { DataArticles } from "./Data";
+import { VirtualizedList } from "react-native";
 
 
-export default function DataScreen() {
+export default function ReglerScreen() {
     const navigation = useNavigation();
     const [search, setSearch] = useState("");
 
@@ -16,30 +17,26 @@ export default function DataScreen() {
     };
 
     // Filter articles by title based on search input (case-insensitive)
-    const filteredArticles = Dataarticles.filter(article =>
+    const filteredArticles = DataArticles.filter(article =>
         article.title.toLowerCase().includes(search.toLowerCase())
     );
 
     return (
         <ScrollView style={styles.container}>
+          
             <Text style={styles.title}>Lær’ mere</Text>
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
                     placeholder="Søg her"
                     value={search}
-                    onChangeText={setSearch}
-                />
-                <TouchableOpacity style={styles.button}>
-                    <AntDesign style={styles.filter} name="filter" size={30} color="#CD1F4D" />
-                </TouchableOpacity>
-            </View>
-            <View style={styles.scrollContainer}>
-                    <ScrollView 
-                      horizontal 
+                    onChangeText={setSearch}/>
+               </View>
+                    <View style={styles.scrollContainer}>
+                    <ScrollView
+                      horizontal
                       showsHorizontalScrollIndicator={false}
-                      contentContainerStyle={styles.tabScroll}
-                    >
+                      contentContainerStyle={styles.tabScroll}>
                       <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('NewsScreen')}>
                         <Text style={styles.tabText}>Nyt</Text>
                       </TouchableOpacity>
@@ -57,81 +54,82 @@ export default function DataScreen() {
                       </TouchableOpacity>
                     </ScrollView>
             </View>
+          
             <Text style={styles.title}>Data</Text>
+          <View style={{ marginTop: 20, marginBottom: 80, height: 300, position: 'relative' }}>
+  {filteredArticles.slice(0, 4).map((item, index) => (
+    <TouchableOpacity
+      key={item.id.toString()}
+      style={{
+        backgroundColor: index % 2 === 0 ? '#112045' : '#CD1F4D', // Alternate colors
+        padding: 16,
+        paddingBottom: 50,
+        borderRadius: 8,
+        position: 'absolute',
+        top: index * 100,
+        zIndex: filteredArticles.length + index,
+        width: '100%',
+      }}
+      onPress={() => handlePress(item)}
+    >
+      <Text style={{ color: 'white', fontFamily:"AnekDevanagari_400Regular", fontSize: 16 }}
+        numberOfLines={1}
+        ellipsizeMode="tail">
+        {item.subtitle}
+      </Text>
+      <Text
+        style={{ color: 'white', fontSize: 18, fontFamily:"SpecialGothicExpandedOne_400Regular" }}
+      >
+        {item.title}
+      </Text>
+    </TouchableOpacity>
+  ))}
+</View>
 
-            {/* Horizontal scroll for first 4 articles */}
-            <FlatList
-              data={filteredArticles.slice(0, 4)}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item) => item.id.toString()}
-              contentContainerStyle={{ paddingBottom: 10 }}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: '#CD1F4D',
-                    padding: 16,
-                    borderRadius: 8,
-                    marginRight: 12,
-                    width: 220,
-                  }}
-                  onPress={() => handlePress(item)}
-                >
-                  <Text style={{ color: 'white', fontFamily:"SpecialGothicExpandedOne_400Regular", fontSize: 16 }}>
-                    {item.title}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            />
-
-            {/* Grid for the remaining 6 articles */}
-            <FlatList
-            style={{marginVertical:80,}}
-              data={filteredArticles.slice(4, 10)}
-              numColumns={2}
-              
-              keyExtractor={(item) => item.id.toString()}
-              columnWrapperStyle={{ justifyContent: 'space-between',  }}
-
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: '#CD1F4D',
-                    padding: 16,
-                    borderRadius: 8,
-                    marginBottom: 12,
-                    marginRight: 8,
-                    flex: 1,
-                    minWidth: 0,
-                    aspectRatio: 1, // Maintain square aspect ratio
-                    
-                   
-                  }}
-                  onPress={() => handlePress(item)}
-                >
-                  <Text style={{ color: 'white', fontFamily:"AnekDevanagari_400Regular", fontSize: 16 }}
-                    numberOfLines={1} // or 2 if you want two lines
-                    ellipsizeMode="tail">
-                    {item.subtitle}
-                  </Text>
-                  <Text
-                    style={{ color: 'white', fontSize: 18, fontFamily:"SpecialGothicExpandedOne_400Regular",  }}
-                   
-                  >
-                    {item.title}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            />
+<FlatList
+  style={{marginTop:100, marginBottom:80}}
+  data={filteredArticles.slice(4, 11)}
+  keyExtractor={(item) => item.id.toString()}
+  numColumns={2}
+  columnWrapperStyle={{ justifyContent: 'space-between' }}
+  showsVerticalScrollIndicator={false}
+  renderItem={({ item, index }) => (
+    <TouchableOpacity
+      style={{
+        backgroundColor: (index + 1) % 3 === 0 ? '#CD1F4D' : '#112045', // Every third item is red
+        padding: 16,
+        borderRadius: 8,
+        marginBottom: 12,
+        marginRight: 8,
+        flex: 1,
+        minWidth: 0,
+        maxHeight: 150,
+        aspectRatio: 1,
+        width: '48%', // Adjust width to fit two items per row
+      }}
+      onPress={() => handlePress(item)}
+    >
+      <Text style={{ color: 'white', fontFamily:"AnekDevanagari_400Regular", fontSize: 16 }}
+        numberOfLines={1}
+        ellipsizeMode="tail">
+        {item.subtitle}
+      </Text>
+      <Text
+        style={{ color: 'white', fontSize: 18, fontFamily:"SpecialGothicExpandedOne_400Regular" }}
+      >
+        {item.title}
+      </Text>
+    </TouchableOpacity>
+  )}
+/>
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 80,
-
-       paddingHorizontal: 24,
+        paddingVertical: 60,
+        paddingHorizontal: 20,
     },
     title: {
         marginTop: 20,
@@ -140,19 +138,21 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     input: {
-        height: 40,
-        width: 310,
+        
+        width:'100%' ,
        backgroundColor:'#D9D9D9',
         borderRadius: 8,
         paddingLeft: 10,
         marginBottom: 20,
+        fontSize:20,
     },
     
     inputContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        
         marginBottom: 20,
+        fontFamily: "AnekDevanagari_400Regular",
+        fontSize: 20,
     },
      scrollContainer: {
     width: '100%',

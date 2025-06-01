@@ -17,7 +17,7 @@ export default function DataArticles({ route }) {
   }
 
   return (
-    <ScrollView style={{ flex: 1, padding: 20 }}>
+    <ScrollView style={{ flex: 1, paddingHorizontal: 20,paddingVertical: 80 }}>
        <TouchableOpacity onPress={() => navigation.navigate('ReglerScreen')} style={styles.backButton}>
         <AntDesign name="arrowleft" size={24} color="black" />
         <Text style={styles.backButtonText}>Tilbage</Text>

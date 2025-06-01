@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   header:{
     paddingTop:30,
     backgroundColor:'#CD1F4D',
-    aspectRatio:1,
+    height: 400,
   },
   headerText:{
     fontSize: 24,
@@ -130,19 +130,19 @@ const styles = StyleSheet.create({
     color:'white',
     fontFamily:'DynaPuff_400Regular',
    marginLeft: 20,
-    marginTop: 50,
+    marginTop: 30,
    width:180,
    
   },
   frida:{
     position:'absolute',
-    bottom:-20,
+    bottom:-15,
     left:'10%',
     
   },
   title: {
     fontSize: 27,
-    marginTop: 65,
+    marginTop: 30,
     marginBottom: 18,
     color:'#112045',
     fontFamily:'SpecialGothicExpandedOne_400Regular',

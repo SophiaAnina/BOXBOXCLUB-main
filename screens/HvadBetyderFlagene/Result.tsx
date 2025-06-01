@@ -22,11 +22,11 @@ export default function Result() {
       <View style={styles.content}>
         <Text style={styles.title}>Du er færdig</Text>
         <ScoreCounter style={styles.scoreCounter} score={score} total={total} />
-        <GiveXp score={score} />
+      
         <Text style={styles.description}>Du er bare for god!</Text>
       <TouchableOpacity
         style={styles.finishButton}
-        onPress={() => navigation.navigate("Quiz")}
+        onPress={() => navigation.navigate("QuizHome")}
       >
         <Text style={styles.finishButtonText}>Afslut</Text>
       </TouchableOpacity>
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   header: {
-    aspectRatio: 1,
+    height: 350,
     backgroundColor:"#CD1F4D",
     justifyContent:"flex-end",
     alignItems:"center",
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#CD1F4D", 
     paddingVertical: 10, 
     paddingHorizontal:100 ,
-    marginTop: 70,
+  
     borderRadius: 8 
   },
   finishButtonText: { 

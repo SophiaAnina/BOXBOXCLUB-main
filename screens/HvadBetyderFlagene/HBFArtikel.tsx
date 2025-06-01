@@ -10,8 +10,11 @@ import RodFlag from "../../assets/svg/flags/rodflag.svg";
 import BlaaFlag from "../../assets/svg/flags/blaaflag.svg";
 import SortHvidFlag from "../../assets/svg/flags/sort-hvidflag.svg";
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function HBFArtikel() {
+    const navigation = useNavigation();
+
     return(
         <ScrollView style={styles.container}>
              <TouchableOpacity onPress={() => navigation.navigate('HBFArtikelStart')} style={styles.backButton}>
@@ -63,11 +66,11 @@ export default function HBFArtikel() {
 const styles = StyleSheet.create({
     container: {
        paddingBottom: 80,
-        padding: 23,
+        padding: 20,
     },
     title: {
         fontFamily: "SpecialGothicExpandedOne_400Regular",
-        fontSize: 32,
+        fontSize: 28,
        justifyContent: "flex-end",
         marginBottom: 20,
         color: "#112045",
@@ -123,7 +126,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: 120,
     paddingVertical: 10,
-    marginLeft: 10,
+   
     marginBottom: 38,
     marginTop: 40,
     flexDirection: "row",

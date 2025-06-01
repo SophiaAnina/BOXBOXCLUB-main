@@ -12,10 +12,9 @@ import { eye } from '../hjealm/src/components/eye';
 import { SvgXml } from 'react-native-svg';
 import Svg , { Path } from 'react-native-svg';
 
-import { useFonts, DynaPuff_400Regular } from '@expo-google-fonts/dynapuff';
-import { AnekDevanagari_400Regular } from '@expo-google-fonts/anek-devanagari';
-import { SpecialGothicExpandedOne_400Regular } from '@expo-google-fonts/special-gothic-expanded-one';
-
+import { useFonts, DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold} from "@expo-google-fonts/dynapuff";
+import { AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, } from "@expo-google-fonts/anek-devanagari";
+import { SpecialGothicExpandedOne_400Regular } from "@expo-google-fonts/special-gothic-expanded-one";
 AppState.addEventListener('change', (state) => {
   if (state === 'active') {
     supabase.auth.startAutoRefresh();
@@ -31,9 +30,9 @@ const faceNames: { [key: string]: string } = {
 
 const eyeNames: { [key: string]: string } = {
   eyes1: "Victory Eyes",
-  eyes2: "TBD",
+  eyes2: "Pitstop Pits",
   eyes3: "Brake Mode",
-  eyes4: "TBD",
+  eyes4: "Pitstop Powernap",
   eyes5: "TBD",
   eyes6: "Zen Mode",
   eyes7: "Pitstop Powernap",
@@ -53,6 +52,7 @@ const faceColors = [
   '#F7A072', // Orange
   '#B39DDB', // Purple
   '#E6E5E5', // Light Gray
+  '#F4B6C2', // Pink
 ];
 
 // Add a label for each color
@@ -65,9 +65,10 @@ const faceColorLabels = [
   "Eco Racer",
   "Sunshine Speed",
   "Blue Blazer",
+
 ];
 
-export default function ChangeAvatar() {
+export default function Avatar() {
   const [fontsLoaded] = useFonts({ DynaPuff_400Regular, AnekDevanagari_400Regular, SpecialGothicExpandedOne_400Regular });
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
@@ -152,7 +153,7 @@ export default function ChangeAvatar() {
         .from('profiles')
         .update({ avatar_url: avatarSvg })
         .eq('id', user.id);
-      navigation.navigate('Profile');
+      navigation.navigate('OnboardingStart');
       if (updateError) {
         Alert.alert('Error updating profile:', updateError.message);
       } else {
@@ -165,7 +166,7 @@ export default function ChangeAvatar() {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.backButton}>
           <AntDesign name="arrowleft" size={24} color="white" />
@@ -208,26 +209,29 @@ export default function ChangeAvatar() {
             <View style={styles.faceGrid}>
               {faceColors.map((color, idx) => (
                 <View key={color} style={styles.faceGridItem}>
-                  <TouchableOpacity
+                  <View
                     style={[
                       styles.faceCircle,
                       selectedFaceColorIndex === idx && styles.selectedFaceCircle,
                     ]}
-                    onPress={() => {
-                      setSelectedFace("hjealm"); // or the correct face key
-                      setSelectedFaceColorIndex(idx);
-                    }}
                   >
-                    <SvgXml
-                      xml={`<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 298 298">
-                        <g object-fit="cover" transform="translate(-20 0)">
-                          ${face["hjealm"]({}, { face: selectedFaceColorIndex === idx ? "#CD1F4D" : color })}
-                        </g>
-                      </svg>`}
-                      width={60}
-                      height={60}
-                    />
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setSelectedFace("hjealm");
+                        setSelectedFaceColorIndex(idx);
+                      }}
+                    >
+                      <SvgXml
+                        xml={`<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 298 298">
+              <g object-fit="cover" transform="translate(-20 0)">
+                ${face["hjealm"]({}, { face: color })}
+              </g>
+            </svg>`}
+                        width={60}
+                        height={60}
+                      />
+                    </TouchableOpacity>
+                  </View>
                   <Text style={styles.faceLabel}>{faceColorLabels[idx]}</Text>
                 </View>
               ))}
@@ -244,7 +248,7 @@ export default function ChangeAvatar() {
           <>
             <Text style={styles.title}>Hvilket udtryk repræsentere dig bedst?</Text>
             <View style={styles.eyesContainer}>
-              {Object.keys(eye).slice(0, 12).map((key) => {
+              {Object.keys(eye).slice(0, 8).map((key) => {
                 const EyeComponent = eye[key];
                 if (typeof EyeComponent !== 'function') return null;
                 const svgXml = EyeComponent();
@@ -254,10 +258,12 @@ export default function ChangeAvatar() {
                      
                       onPress={() => setSelectedEye(svgXml)}
                     >
-                      <View  style={[
-                        styles.eyeWrapper,
-                        selectedEye === svgXml && styles.selectedEyeWrapper,
-                      ]} >
+                      <View
+                        style={[
+                          styles.eyeWrapper,
+                          selectedEye === svgXml && styles.selectedEyeWrapper,
+                        ]}
+                      >
                       <SvgXml
                         style={styles.eye}
                         xml={`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
@@ -265,8 +271,8 @@ export default function ChangeAvatar() {
                           ${svgXml}
                           </g>
                           </svg>`}
-                        width={75}
-                        height={75}
+                        width={50}
+                        height={50}
                       />
                       </View>
                       <Text style={styles.eyeTitle}>{eyeNames[key] || key}</Text>
@@ -291,8 +297,8 @@ export default function ChangeAvatar() {
 
 const styles = StyleSheet.create({
   container: {
-   
-    padding: 20,
+   padding: 20,
+    
   },
   verticallySpaced: {
     paddingTop: 4,
@@ -302,7 +308,7 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: 30,
     backgroundColor: '#CD1F4D',
-    aspectRatio: 1,
+    height: 350,
   },
   headerText: {
     position: 'absolute',
@@ -321,7 +327,7 @@ const styles = StyleSheet.create({
     bottom: -35,
   },
   title: {
-    fontSize: 27,
+    fontSize: 20,
     marginBottom: 18,
     fontWeight: 'bold',
     color: '#112045',
@@ -364,7 +370,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    marginTop: 30,
+    marginTop: 0,
     marginBottom: 80,
     marginLeft: 40,
     marginRight: 40,
@@ -419,14 +425,15 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
  eyeWrapper: {
-  backgroundColor:'#D8A4B2',
+  backgroundColor: '#D8A4B2',
   padding: 10,
   borderRadius: 50,
-  width:'100%',
-  
+  width: '100%',
+  borderWidth: 3,
+  borderColor: 'transparent', // Default: no border
  },
  selectedEyeWrapper: {
-  backgroundColor: '#CD1F4D',
+  borderColor: '#CD1F4D', // Highlight border color
  },
   eyeTitle: {
     marginTop: 4,
@@ -438,20 +445,34 @@ const styles = StyleSheet.create({
   faceGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     marginBottom: 20,
   },
   faceGridItem: {
-   
+    width: '22%', // Changed from '24%' to '22%' for 4 per row
     alignItems: 'center',
-    marginBottom: 20,
-  },
+    
+    // Optionally, add marginHorizontal for spacing:
+    marginHorizontal: '1.5%',
   
+    borderRadius: 50,
+    borderWidth: 3,
+    borderColor: 'transparent',
+    padding: 3,
+  },
+  faceCircle: {
+    borderRadius: 50,
+    borderWidth: 3,
+    borderColor: 'transparent',
+    padding: 3,
+    backgroundColor: 'white', // or your preferred background
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   selectedFaceCircle: {
     borderColor: '#CD1F4D',
-    
   },
-  faceLabel: {
+  faceLabel: {borderColor: '#CD1F4D', // or any highlight color you want
     fontSize: 12,
     color: '#112045',
     textAlign: 'center',

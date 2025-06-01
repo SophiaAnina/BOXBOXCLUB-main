@@ -126,15 +126,14 @@ const styles = StyleSheet.create({
     raceCard: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#192a56',
-        borderRadius: 14,
+        backgroundColor: '#112045',
         marginBottom: 16,
         paddingVertical: 18,
         paddingHorizontal: 18,
-        shadowColor: '#000',
-        shadowOpacity: 0.08,
-        shadowRadius: 4,
-        elevation: 2,
+        borderBottomColor: '#CD1F4D',
+        borderBottomWidth: 1,
+      
+       
     },
     raceRound: {
         color: '#fff',
@@ -157,8 +156,8 @@ const styles = StyleSheet.create({
     },
     dateBox: {
        borderLeftColor: '#CD1F4D',
-       borderLeftWidth: 1,
-        borderRadius: 8,
+       borderLeftWidth: 4,
+       
         paddingVertical: 8,
         paddingHorizontal: 14,
         alignItems: 'flex-end',
@@ -176,8 +175,8 @@ const styles = StyleSheet.create({
         textAlign:'center'
     },
     arrow: {
-        color: '#fff',
-        fontSize: 22,
+        color: '#CD1F4D',
+        fontSize: 50,
         fontWeight: 'bold',
         alignSelf: 'center',
     },

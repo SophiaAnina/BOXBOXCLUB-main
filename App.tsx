@@ -1,10 +1,9 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNavigationContainerRef } from '@react-navigation/native'; // Import navigation ref
+import { createNavigationContainerRef } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { supabase } from './lib/supabase';
-import { Session } from '@supabase/supabase-js';
 import Start from './components/Start';
 import NewUser from './components/newUser';
 import OnboardingStart from './components/onboardingStart';
@@ -14,20 +13,20 @@ import OnboardingStep3 from './components/onboardingStep3';
 import OnboardingStep4 from './components/onboardingStep4';
 
 import HomeScreen from './screens/HomeScreen';
+import Instillinger from './components/Instillinger';
 import ProfileScreen from './screens/ProfilScreen';
 import ChangeAvatar from './components/ChangeAvatar';
 import ChangeNiveau from './components/ChangeNiveau';
+import PostStart from './components/PostStart';
 import MessagesScreen from './components/Post';
+
 import Quiz from './screens/Quiz';
-import HBFStart from './screens/HvadBetyderFlagene/HBFStart';
+import PlayerScoreboard from './screens/HvadBetyderFlagene/PlayerScoreboard';
 import HBFArtikel from './screens/HvadBetyderFlagene/HBFArtikel';
 import HBFArtikelStart from './screens/HvadBetyderFlagene/HBFArtikelStart';
-import Question1 from './screens/HvadBetyderFlagene/Question1';
-import Question2 from './screens/HvadBetyderFlagene/Question2'
-import Question3 from './screens/HvadBetyderFlagene/Question3'
-import Question4 from './screens/HvadBetyderFlagene/Question4';
-import Question5 from './screens/HvadBetyderFlagene/Question5';
+import HBFStart from './screens/HvadBetyderFlagene/HBFStart';
 import Result from './screens/HvadBetyderFlagene/Result';
+import Question1 from './screens/HvadBetyderFlagene/Question1';
 
 import DataScreen from './screens/Lærringscenter/DataScreen';
 import ReglerArticles from './screens/Lærringscenter/ReglerArticles';
@@ -48,6 +47,7 @@ import Leaderboard from './screens/Stilling/screens/LiveRaceScreen';
 import KalenderScreen from './screens/Stilling/screens/Kalender';
 import TeamsStandingScreen from './screens/Stilling/screens/TeamStanding';
 import DriverStandingScreen from './screens/Stilling/screens/DriverStanding';
+import Nyheder from './components/Nyheder';
 // Create a navigation ref
 export const navigationRef = createNavigationContainerRef();
 
@@ -63,19 +63,28 @@ function HomeStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="Instillinger" component={Instillinger} />
+      <Stack.Screen name='Nyheder' component={Nyheder} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="ChangeNiveau" component={ChangeNiveau} />
       <Stack.Screen name="ChangeAvatar" component={ChangeAvatar} />
-      <Stack.Screen name="HBFStart" component={HBFStart} />
-      <Stack.Screen name='HBFArtikelStart' component={HBFArtikelStart} />
-      <Stack.Screen name="HBFArtikel" component={HBFArtikel} />
-      <Stack.Screen name="Question1" component={Question1} />
-      <Stack.Screen name="Question2" component={Question2} />
-      <Stack.Screen name="Question3" component={Question3} />
-      <Stack.Screen name="Question4" component={Question4} />
-      <Stack.Screen name="Question5" component={Question5} />
-      <Stack.Screen name="Result" component={Result} />
-    
+      <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
+      <Stack.Screen name="PostStart" component={PostStart} />
+      <Stack.Screen name='Leaderboard' component={Leaderboard} />
+      <Stack.Screen name='Kalender' component={KalenderScreen} />
+      <Stack.Screen name='DriverStanding' component={DriverStandingScreen} />
+      <Stack.Screen name='TeamStanding' component={TeamsStandingScreen} />
+      <Stack.Screen name='DataScreen' component={DataScreen} />
+      <Stack.Screen name='ReglerScreen' component={ReglerScreen} />
+      <Stack.Screen name='ReglerArticles' component={ReglerArticles} />
+      <Stack.Screen name='DataArticles' component={DataArticles} />
+      <Stack.Screen name='DriverArticles' component={DriverArticles} />
+      <Stack.Screen name='NewsScreen' component={NewsScreen} />
+      <Stack.Screen name='NewsArticles' component={NewsArticles} />
+      
+      
+
+      
     </Stack.Navigator>
   );
 }
@@ -113,9 +122,39 @@ function LæringscenterStackScreen() {
   );
 }
 
+// Chat Stack Screens
+const ChatStack = createStackNavigator();
+
+function ChatStackScreen() {
+  return (
+    <ChatStack.Navigator screenOptions={{ headerShown: false }}>
+      <ChatStack.Screen name="PostStart" component={PostStart} />
+      <ChatStack.Screen name="MessagesScreen" component={MessagesScreen} />
+    </ChatStack.Navigator>
+  );
+}
+
+// Quiz Stack Screens
+const QuizStack = createStackNavigator();
+
+function QuizStackScreen() {
+  return (
+    <QuizStack.Navigator screenOptions={{ headerShown: false }}>
+      <QuizStack.Screen name="QuizHome" component={Quiz} />
+      <QuizStack.Screen name="HBFStart" component={HBFStart} />
+      <QuizStack.Screen name="HBFArtikelStart" component={HBFArtikelStart} />
+      <QuizStack.Screen name="HBFArtikel" component={HBFArtikel} />
+      <QuizStack.Screen name="Result" component={Result} />
+      <QuizStack.Screen name="Question1" component={Question1} />
+      <QuizStack.Screen name="PlayerScoreboard" component={PlayerScoreboard} />
+      
+      {/* Add other quiz-related screens here if needed */}
+    </QuizStack.Navigator>
+  );
+}
+
 // Tab Screens for Main App
 function MainApp() {
-  const { session } = useAuth(); // Access session from AuthContext
   
   return (
     <Tab.Navigator
@@ -128,10 +167,14 @@ function MainApp() {
       }}
       initialRouteName='Home'
     >
-      <Tab.Screen name="Chat" component={MessagesScreen}
+      <Tab.Screen
+        name="Chat"
+        component={ChatStackScreen} // <-- use the stack here
         options={{
           tabBarActiveTintColor:'#CD1F4D',
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="message-badge" size={32} color={color} /> }} />
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="message-badge" size={32} color={color} />
+        }}
+      />
       <Tab.Screen
         name="Stlling"
         component={StillingStackScreen}
@@ -156,11 +199,11 @@ function MainApp() {
         }}
       />
       <Tab.Screen
-      name='Quiz'
-      component={Quiz}
-      options={{
-        tabBarIcon: ({ color }) => <MaterialIcons name="videogame-asset" size={32} color={color} />
-      }}/>
+  name='Quiz'
+  component={QuizStackScreen}
+  options={{
+    tabBarIcon: ({ color }) => <MaterialIcons name="videogame-asset" size={32} color={color} />
+  }}/>
       <Tab.Screen
         name="Lær' mere"
         component={LæringscenterStackScreen}
@@ -183,6 +226,7 @@ function StackNavigator() {
       <Stack.Screen name="OnboardingStep2" component={OnboardingStep2} />
       <Stack.Screen name="OnboardingStep3" component={OnboardingStep3} />
       <Stack.Screen name="OnboardingStep4" component={OnboardingStep4} />
+      <Stack.Screen name="PostStart" component={PostStart} />
       <Stack.Screen name="MessagesScreen" component={MessagesScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="ChangeAvatar" component={ChangeAvatar} />
@@ -190,18 +234,12 @@ function StackNavigator() {
       <Stack.Screen name="Leaderboard" component={Leaderboard} />
       <Stack.Screen name="DriverStanding" component={DriverStandingScreen} />
       <Stack.Screen name="TeamStanding" component={TeamsStandingScreen} />
-      <Stack.Screen name='Quiz' component={Quiz} />
+     
       <Stack.Screen name="HBFStart" component={HBFStart} />
-      <Stack.Screen name='HBFArtikelStart' component={HBFArtikelStart} />
+      <Stack.Screen name="HBFArtikelStart" component={HBFArtikelStart} />
       <Stack.Screen name="HBFArtikel" component={HBFArtikel} />
-      <Stack.Screen name="Question1" component={Question1} />
-      <Stack.Screen name="Question2" component={Question2} />
-      <Stack.Screen name="Question3" component={Question3} />
-      <Stack.Screen name="Question4" component={Question4} />
-      <Stack.Screen name="Question5" component={Question5} />
-      <Stack.Screen name="Result" component={Result} />
       
-
+      <Stack.Screen name='Result' component={Result} />
     </Stack.Navigator>
   );
 }
@@ -225,7 +263,6 @@ function RootStack() {
 
 // Root Navigation deciding based on session
 export default function App() {
-  
   const [session, setSession] = useState(null);
   const [profileData, setProfileData] = useState(null);
 
@@ -234,6 +271,8 @@ export default function App() {
       setSession(session);
       if (session) {
         fetchProfile(session.user.id);
+      } else {
+        setProfileData(null);
       }
     });
 
@@ -254,17 +293,33 @@ export default function App() {
       const { data, error } = await supabase
         .from('profiles')
         .select('username, niveau, avatar_url')
-        .eq('id', userId)
-        .single();
+        .eq('id', userId);
 
       if (error) {
         console.error('Error fetching profile:', error.message);
-      } else {
-        setProfileData(data); // Store profile data in state
-        console.log('Fetched username:', data.username);
+        setProfileData(null);
+        return;
       }
+
+      if (!data || data.length === 0) {
+        // No profile row found for this user
+        setProfileData(null);
+        console.warn('No profile found for user:', userId);
+        return;
+      }
+
+      if (data.length > 1) {
+        // Multiple profiles found for this user (should not happen)
+        setProfileData(data[0]);
+        console.warn('Multiple profiles found for user:', userId, data);
+        return;
+      }
+
+      setProfileData(data[0]);
+      console.log('Fetched username:', data[0].username);
     } catch (err) {
       console.error('Unexpected error fetching profile:', err);
+      setProfileData(null);
     }
   };
 
@@ -273,12 +328,12 @@ export default function App() {
       <NavigationContainer ref={navigationRef}>
         {session ? (
           profileData && profileData.avatar_url
-          ? <RootStack />
-          : <StackNavigator initialRouteName="Avatar" />
-      ) : (
-        <StackNavigator />
-      )}
-    </NavigationContainer>
-  </AuthContext.Provider>
+            ? <RootStack />
+            : <StackNavigator initialRouteName="Avatar" />
+        ) : (
+          <StackNavigator />
+        )}
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }

@@ -16,29 +16,3 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
 })
 
-async function getUsername() {
-  try {
-    // Get the authenticated user's ID
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
-    if (authError) throw authError;
-    if (!user) throw new Error('User not authenticated');
-
-    // Fetch the username from the profiles table
-    const { data, error: fetchError } = await supabase
-      .from('profiles')
-      .select('username')
-      .eq('id', user.id)
-      .single();
-
-    if (fetchError) throw fetchError;
-
-    return data?.username || null;
-  } catch (error) {
-    console.error('Error fetching username:', error);
-    return null;
-  }
-}

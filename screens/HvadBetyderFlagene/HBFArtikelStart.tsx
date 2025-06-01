@@ -23,7 +23,7 @@ export default function HBFArtikelStart() {
             <TouchableOpacity style={styles.LæsButton} onPress={() => navigation.navigate('HBFArtikel')}>
                 <Text style={styles.LæsButtonText}>Læs artikel om flag</Text>
             </TouchableOpacity>
-            <Frida style={styles.frida} width={270} height={270}  />
+            <Frida style={styles.frida} width={200} height={200}  />
             </View>
         </View>
     )
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: "SpecialGothicExpandedOne_400Regular",
-        fontSize: 32,
+        fontSize: 28,
        justifyContent: "flex-end",
         marginBottom: 20,
         color: "white",

@@ -116,7 +116,7 @@ export default function OnboardingStep2() {
   disabled={loading}
   onPress={async () => {
     await updateUserLevel();
-    navigation.navigate('OnboardingStep3',{selectedLevel});
+    navigation.navigate('OnboardingStep3',{selectedLevel,email,password});
   }}
 >
   <Text style={styles.buttonText}>Næste</Text>
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
 
   header:{
     backgroundColor:'#FCFAED',
-    paddingBottom:60,
+    paddingBottom:30,
     paddingTop:100,
     alignContent:'center',
     justifyContent:'center',
@@ -160,30 +160,29 @@ const styles = StyleSheet.create({
  questionTitle:{
    fontSize:20,
    color:'white',
-   fontWeight:'bold',
    textAlign:'center',
    marginBottom:12.5,
+   fontFamily:'SpecialGothicExpandedOne_400Regular',
  },
  questionText:{
-   fontSize:24,
+   fontSize:20,
    color:'white',
    textAlign:'center',
+    fontFamily:'AnekDevanagari_400Regular',
  },
  content:{
   backgroundColor:'#112045',
   paddingTop:21,
-
  },
  selectedQuestionButton:{
   backgroundColor:'#CD1F4D',
  },
   title: {
-    fontSize: 27,
+    fontSize: 20,
     marginTop: 18,
     marginBottom: 18,
-    fontWeight: "bold",
     color:'#112045',
-    fontFamily:'Special Gothic Expanded One',
+    fontFamily:'SpecialGothicExpandedOne_400Regular',
     width:'100%',
     textAlign:'center',
 },
@@ -221,10 +220,7 @@ const styles = StyleSheet.create({
     
     width:'65%',
   },
-  longText:{
-    maxWidth:200,
-    marginBottom:30,
-  },
+ 
   button:{
     marginTop:30,
     marginBottom:80,

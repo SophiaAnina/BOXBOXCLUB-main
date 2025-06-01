@@ -23,7 +23,7 @@ export default function Login() {
       email: email,
       password: password,
     })
-    navigation.navigate('Home')
+    navigation.navigate('HomeScreen')
     if (error) Alert.alert(error.message)
     setLoading(false)
   }

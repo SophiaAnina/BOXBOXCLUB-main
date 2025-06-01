@@ -30,9 +30,9 @@ const faceNames: { [key: string]: string } = {
 
 const eyeNames: { [key: string]: string } = {
   eyes1: "Victory Eyes",
-  eyes2: "TBD",
+  eyes2: "Pitstop Pits",
   eyes3: "Brake Mode",
-  eyes4: "TBD",
+  eyes4: "Pitstop Powernap",
   eyes5: "TBD",
   eyes6: "Zen Mode",
   eyes7: "Pitstop Powernap",
@@ -166,9 +166,18 @@ export default function Avatar() {
   }
 
   return (
-    <ScrollView>
+    <View>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate('Start')} style={styles.backButton}>
+        <TouchableOpacity
+          onPress={() => {
+            if (step === 1) {
+              setStep(0); // Go back to face selection
+            } else {
+              navigation.navigate('NewUser'); // Go to NewUser screen
+            }
+          }}
+          style={styles.backButton}
+        >
           <AntDesign name="arrowleft" size={24} color="white" />
           <Text style={styles.backButtonText}>Tilbage</Text>
         </TouchableOpacity>
@@ -209,26 +218,29 @@ export default function Avatar() {
             <View style={styles.faceGrid}>
               {faceColors.map((color, idx) => (
                 <View key={color} style={styles.faceGridItem}>
-                  <TouchableOpacity
+                  <View
                     style={[
                       styles.faceCircle,
                       selectedFaceColorIndex === idx && styles.selectedFaceCircle,
                     ]}
-                    onPress={() => {
-                      setSelectedFace("hjealm");
-                      setSelectedFaceColorIndex(idx);
-                    }}
                   >
-                    <SvgXml
-                      xml={`<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 298 298">
-      <g object-fit="cover" transform="translate(-20 0)">
-        ${face["hjealm"]({}, { face: color })}
-      </g>
-    </svg>`}
-                      width={60}
-                      height={60}
-                    />
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setSelectedFace("hjealm");
+                        setSelectedFaceColorIndex(idx);
+                      }}
+                    >
+                      <SvgXml
+                        xml={`<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 298 298">
+              <g object-fit="cover" transform="translate(-20 0)">
+                ${face["hjealm"]({}, { face: color })}
+              </g>
+            </svg>`}
+                        width={60}
+                        height={60}
+                      />
+                    </TouchableOpacity>
+                  </View>
                   <Text style={styles.faceLabel}>{faceColorLabels[idx]}</Text>
                 </View>
               ))}
@@ -245,7 +257,7 @@ export default function Avatar() {
           <>
             <Text style={styles.title}>Hvilket udtryk repræsentere dig bedst?</Text>
             <View style={styles.eyesContainer}>
-              {Object.keys(eye).slice(0, 12).map((key) => {
+              {Object.keys(eye).slice(0, 8).map((key) => {
                 const EyeComponent = eye[key];
                 if (typeof EyeComponent !== 'function') return null;
                 const svgXml = EyeComponent();
@@ -255,10 +267,12 @@ export default function Avatar() {
                      
                       onPress={() => setSelectedEye(svgXml)}
                     >
-                      <View  style={[
-                        styles.eyeWrapper,
-                        selectedEye === svgXml && styles.selectedEyeWrapper,
-                      ]} >
+                      <View
+                        style={[
+                          styles.eyeWrapper,
+                          selectedEye === svgXml && styles.selectedEyeWrapper,
+                        ]}
+                      >
                       <SvgXml
                         style={styles.eye}
                         xml={`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
@@ -266,8 +280,8 @@ export default function Avatar() {
                           ${svgXml}
                           </g>
                           </svg>`}
-                        width={75}
-                        height={75}
+                        width={50}
+                        height={50}
                       />
                       </View>
                       <Text style={styles.eyeTitle}>{eyeNames[key] || key}</Text>
@@ -286,7 +300,7 @@ export default function Avatar() {
           </>
         )}
       </ScrollView>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -303,7 +317,7 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: 30,
     backgroundColor: '#CD1F4D',
-    aspectRatio: 1,
+    height:350,
   },
   headerText: {
     position: 'absolute',
@@ -365,7 +379,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    marginTop: 30,
+    marginTop: 0,
     marginBottom: 80,
     marginLeft: 40,
     marginRight: 40,
@@ -387,6 +401,7 @@ const styles = StyleSheet.create({
     width: 120,
     paddingVertical: 10,
     marginLeft: 10,
+    marginTop: 10,
     flexDirection: 'row',
     paddingHorizontal: 10,
     justifyContent: 'space-between',
@@ -412,22 +427,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+   
+    marginBottom: 20,
   },
   eye: {
-  
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
   },
  eyeWrapper: {
-  backgroundColor:'#D8A4B2',
+  backgroundColor: '#D8A4B2',
   padding: 10,
+  marginBottom: 5,
   borderRadius: 50,
-  width:'100%',
-  
+  width: '100%',
+  borderWidth: 3,
+  borderColor: 'transparent', 
  },
  selectedEyeWrapper: {
-  backgroundColor: '#CD1F4D',
+  borderColor: '#CD1F4D', // Highlight border color
  },
   eyeTitle: {
     marginTop: 4,
@@ -435,31 +453,36 @@ const styles = StyleSheet.create({
     color: '#112045',
     textAlign: 'center',
     fontFamily: 'AnekDevanagari_400Regular',
+    marginBottom: 20,
   },
   faceGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start', // or 'space-between'
+    justifyContent: 'flex-start',
     marginBottom: 20,
   },
   faceGridItem: {
-    width: '24%', // 4 per row, with some margin
+    width: '22%', // Changed from '24%' to '22%' for 4 per row
     alignItems: 'center',
-    marginBottom: 20,
-   
+    marginHorizontal: '1.5%',
+    borderRadius: 50,
+    borderWidth: 3,
+    borderColor: 'transparent',
+    padding: 3,
   },
-  
   faceCircle: {
     borderRadius: 50,
     borderWidth: 3,
     borderColor: 'transparent',
     padding: 3,
-    marginBottom: 4,
+    backgroundColor: 'white', // or your preferred background
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   selectedFaceCircle: {
-    borderColor: '#CD1F4D', // or any highlight color you want
+    borderColor: '#CD1F4D',
   },
-  faceLabel: {
+  faceLabel: {borderColor: '#CD1F4D', // or any highlight color you want
     fontSize: 12,
     color: '#112045',
     textAlign: 'center',

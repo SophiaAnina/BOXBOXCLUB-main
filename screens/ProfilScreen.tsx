@@ -53,7 +53,7 @@ export default function ProfileScreen({profileData}) {
   
         setUsername(username);
         setNiveau(niveau);
-        setAvatarUrl(avatar_url); // <-- Add this line
+        setAvatarUrl(avatar_url); 
         setXp(xp);
       } catch (error) {
         Alert.alert("Error", error.message);
@@ -65,14 +65,7 @@ export default function ProfileScreen({profileData}) {
     fetchData();
   }, []);
   
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      Alert.alert("Logout failed", error.message);
-    } else {
-      navigation.navigate("Start"); // Or your login/start screen
-    }
-  };
+  
 
   if (loading) {
     return <Text>Loading...</Text>;
@@ -90,10 +83,10 @@ export default function ProfileScreen({profileData}) {
  
   
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.Title}>Hva så {username}?</Text>
       <Text style={styles.Subtitle}>Clare til tjeneste!</Text>
-      <Frida style={styles.frida} width={150} height={150}  />
+      <Frida style={styles.frida} width={180} height={180}  />
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tabScroll}>
         <TouchableOpacity style={[styles.tab, styles.Checked]} onPress={() => navigation.navigate("Profile", { session })}>
@@ -109,18 +102,23 @@ export default function ProfileScreen({profileData}) {
 
           <Text style={{ color: "white", fontSize: 20,fontFamily:'AnekDevanagari_400Regular' }}>Kalender</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate("Instillinger")}>
+          <Text style={{ color: "white", fontSize: 20,fontFamily:'AnekDevanagari_400Regular' }}>Indstillinger</Text>
+        </TouchableOpacity>
       </ScrollView>
       <Text style={styles.ProfilTitle}>Din profil</Text>
       <Text style={styles.ProfilText}>Brugernavn:</Text>
       <Text style={styles.Brugernavn}>{username}</Text>
 
+      <Text style={styles.ProfilText}>xp:</Text>
+      <Text style={styles.Brugernavn}>{xp}</Text>
+
       <Text style={styles.ProfilText}>Niveau:</Text>
       <Text style={styles.Brugernavn}>{niveau}</Text>
       
-      <Text style={styles.ProfilText}>Brugernavn:</Text>
-      <Text style={styles.Brugernavn}>{username}</Text>
+      
     <View style={styles.avatarContainer}>
-    <SvgXml xml={avatar_url} width="150" height="150" style={styles.avatar} />
+    <SvgXml xml={avatar_url} width="120" height="120" style={styles.avatar} />
 
     <TouchableOpacity
       style={styles.changeAvatarButton}
@@ -143,11 +141,9 @@ export default function ProfileScreen({profileData}) {
         </Text>
       </View>
     </View>
-    <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-      <Text style={styles.logoutButtonText}>Log ud</Text>
-    </TouchableOpacity>
    
-    </View>
+   
+    </ScrollView>
     
     
   );
@@ -162,13 +158,13 @@ const styles = StyleSheet.create({
   },
   frida: {
     position: "absolute",
-    top: 30,
-    right: -80,
+    top: -25,
+    right: -100,
     zIndex: -1,
     transform: [{ rotate: "-50deg" }],
   },
   Title: {
-    fontSize: 32,
+    fontSize: 28,
     marginBottom: 10,
     fontFamily: "DynaPuff_400Regular",
     color: "black",
@@ -179,7 +175,7 @@ const styles = StyleSheet.create({
     color: "black",
   },
   ProfilTitle: {
-    fontSize: 32,
+    fontSize: 24,
     marginBottom: 10,
     fontFamily: "SpecialGothicExpandedOne_400Regular",
     color: "black",
@@ -191,30 +187,27 @@ const styles = StyleSheet.create({
     
   },
   Brugernavn:{
-    fontSize: 20,
-    fontFamily: "AnekDevanagari_400Regular",
+    fontSize: 18,
+    fontFamily: "SpecialGothicExpandedOne_400Regular",
     color: "black",
-    fontWeight: "bold",
   },
   avatar: {
-    
     borderRadius: 60,
-   
   },
   avatarContainer: {
     position: "absolute",
-    top: 320,
-    right: 20,
+    top: 250,
+    right: -10,
     borderColor: "#CD1F4D",
     borderWidth: 4,
     padding:10,
     borderRadius: 20,
   },
   tabScroll: {
-    paddingHorizontal: 10,
     alignItems: "center",
-    paddingVertical: 60,
-    width: "150%",
+    paddingTop:50,
+    paddingBottom:20,
+    width: "210%",
   },
   tab: {
     backgroundColor: "#112045",
@@ -244,7 +237,7 @@ const styles = StyleSheet.create({
   },
   logoutButtonText: {
     color: "white",
-    fontSize: 24,
+    fontSize: 18,
     fontFamily: "AnekDevanagari_600SemiBold",
   },
   changeAvatarButton: {

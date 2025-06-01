@@ -11,6 +11,7 @@ import { AnekDevanagari_400Regular } from '@expo-google-fonts/anek-devanagari';
 import { SpecialGothicExpandedOne_400Regular } from '@expo-google-fonts/special-gothic-expanded-one';
 
 import Frida from '../assets/FridaFart/frida-dobbelt-thumps-up.svg';
+import { useAuth } from '../App'; // Import useAuth
 
 export default function NewUser() {
   
@@ -20,6 +21,7 @@ export default function NewUser() {
   const [password, setPassword] = useState('');
   const [brugernavn, setBrugernavn] = useState('');
   const [loading, setLoading] = useState(false);
+  const { setSession } = useAuth(); // Get setSession from context
 
   // AppState listener properly inside useEffect
   useEffect(() => {
@@ -93,6 +95,19 @@ export default function NewUser() {
     }
   }
 
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      Alert.alert("Logout failed", error.message);
+    } else {
+      setSession(null); // Clear session in context
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Start" }],
+      });
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -107,7 +122,7 @@ export default function NewUser() {
           <Text style={styles.text}>Skal vi få dig oprettet?</Text>
         </View>
 
-        <Frida style={styles.frida} width={400} height={400} />
+        <Frida style={styles.frida} width={350} height={350} />
       </View>
 
       <View style={styles.verticallySpaced}>
@@ -186,7 +201,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 40,
   },
   text: {
-    fontSize: 24,
+    fontSize: 20,
     color: 'white',
     fontFamily: 'DynaPuff_400Regular',
     width: '100%',
@@ -229,6 +244,7 @@ const styles = StyleSheet.create({
     width: 120,
     paddingVertical: 10,
     marginLeft: 10,
+    marginTop: 10,
     flexDirection: 'row',
     paddingHorizontal: 10,
     justifyContent: 'space-between',
