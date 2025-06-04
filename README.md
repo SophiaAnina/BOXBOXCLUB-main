@@ -15,7 +15,7 @@ Start the Expo development server:
 
 Terminal:
 
-npx expo start
+npm start
 
 A QR code will appear in the terminal or in the browser window that opens.
 
