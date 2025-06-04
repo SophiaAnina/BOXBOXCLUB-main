@@ -23,6 +23,9 @@ export default function TeamsStandingScreen() {
     fetchTeamStandings();
   }, []);
 
+  const [fontsLoaded] = useFonts({ DynaPuff_400Regular, DynaPuff_500Medium, DynaPuff_600SemiBold, DynaPuff_700Bold, AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, SpecialGothicExpandedOne_400Regular });
+  if (!fontsLoaded) return null;
+
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20, marginBottom: 20, marginTop: 40 }}>
@@ -39,7 +42,7 @@ export default function TeamsStandingScreen() {
             style={{ backgroundColor: '#112045', borderRadius: 10, paddingVertical: 12, paddingHorizontal: 16, marginRight: 10 }}
             onPress={() => navigation.navigate('Leaderboard')}
           >
-            <Text style={{ color: 'white', fontSize: 20 }}>Live fra Miami</Text>
+            <Text style={{ color: 'white', fontSize: 20 }}>Leaderboard</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{ backgroundColor: '#CD1F4D', borderRadius: 10, paddingVertical: 12, paddingHorizontal: 16, marginRight: 10 }}
@@ -49,9 +52,9 @@ export default function TeamsStandingScreen() {
           </TouchableOpacity>
           <TouchableOpacity
             style={{ backgroundColor: '#112045', borderRadius: 10, paddingVertical: 12, paddingHorizontal: 16, marginRight: 10 }}
-            onPress={() => navigation.navigate('K')}
+            onPress={() => navigation.navigate('Kalender')}
           >
-            <Text style={{ color: 'white', fontSize: 20 }}>Live fra Miami</Text>
+            <Text style={{ color: 'white', fontSize: 20 }}>Kalender</Text>
           </TouchableOpacity>
         </ScrollView>
         </View>
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
   position: { 
     color: '#fff', 
     fontFamily: "SpecialGothicExpandedOne_400Regular",
-    width: 50 
+    width: 60 
   },
   team: { 
     color: '#fff', 

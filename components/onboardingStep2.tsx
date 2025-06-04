@@ -26,6 +26,7 @@ export default function OnboardingStep2() {
   const route = useRoute();
 
   const [fontsLoaded] = useFonts({ DynaPuff_400Regular, AnekDevanagari_400Regular, SpecialGothicExpandedOne_400Regular });
+  if (!fontsLoaded) return null;
   const navigation = useNavigation();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -56,10 +57,10 @@ export default function OnboardingStep2() {
   
       if (updateError) throw updateError;
   
-      Alert.alert('Niveau opdateret!', 'Dit niveau er blevet gemt.');
+      // Alert.alert('Niveau opdateret!', 'Dit niveau er blevet gemt.');
     } catch (error) {
       console.error('Error updating niveau:', error);
-      Alert.alert('Noget gik galt', 'Kunne ikke opdatere niveau.');
+      // Alert.alert('Noget gik galt', 'Kunne ikke opdatere niveau.');
     }
   }
   
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
  },
   title: {
     fontSize: 20,
-    marginTop: 18,
+    marginTop: 20,
     marginBottom: 18,
     color:'#112045',
     fontFamily:'SpecialGothicExpandedOne_400Regular',

@@ -3,6 +3,7 @@ import { supabase } from "../lib/supabase";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import Frida from '../assets/FridaFart/frida-thumps-up.svg';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import { NewsArticles } from "./Lærringscenter/Data"; // Add this import
 
 import { useFonts, DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold} from "@expo-google-fonts/dynapuff";
 import { AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, } from "@expo-google-fonts/anek-devanagari";
@@ -45,6 +46,9 @@ export default function HomeScreen( {}) {
       fetchData();
     }, []);
     
+    const [fontsLoaded] = useFonts({ DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold,AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, SpecialGothicExpandedOne_400Regular });
+    if (!fontsLoaded) return null;
+    
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <View style={{ position : "absolute", top:100, left: 20, zIndex: 1 }}>
@@ -61,11 +65,11 @@ export default function HomeScreen( {}) {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.tabScroll}
         >
-          <TouchableOpacity style={styles.tabIndicator} onPress={() => navigation.navigate('HomeScreen')}>
-            <Text style={{ color: 'white', fontSize:20, fontFamily: "SpecialGothicExpandedOne_400Regular" }}>Trending</Text>
+          <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('Trending')}>
+            <Text style={{ color: 'white', fontSize:20, fontFamily: "AnekDevanagari_400Regular" }}>Trending</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('Nyheder')}>
-            <Text style={{ color: 'white', fontSize:20, fontFamily:"AnekDevanagari_400Regular" }}>Nyheder</Text>
+          <TouchableOpacity style={styles.tabIndicator} onPress={() => navigation.navigate('HomeScreen')}>
+            <Text style={{ color: 'white', fontSize:20, fontFamily:"SpecialGothicExpandedOne_400Regular" }}>Nyheder</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.tab}
@@ -73,7 +77,7 @@ export default function HomeScreen( {}) {
           >
             <Text style={{ color: 'white',fontSize:20, fontFamily:"AnekDevanagari_400Regular" }}>Din Profil</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tab}>
+          <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('Kalender')}>
             <Text style={{ color: 'white',fontSize:20, fontFamily:"AnekDevanagari_400Regular" }}>Kalender</Text>
           </TouchableOpacity>
         </ScrollView>
@@ -81,40 +85,48 @@ export default function HomeScreen( {}) {
 
       <Frida style={styles.frida} width={180} height={180} />
       <ScrollView
-      style={{position: 'absolute', top: 300,}}
+        style={{position: 'absolute', top: 350,}}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 10, paddingTop: 20, paddingHorizontal: 20 }}
       >
-        <View style={[styles.trendingTab, { backgroundColor: '#CD1F4D' }]}>
-          <Text style={{ fontSize: 32, color: 'white', fontFamily: "SpecialGothicExpandedOne_400Regular" }}>Live fra Bahrain </Text>
-          <Text style={{ fontSize: 24,  color: 'white', fontFamily: "AnekDevanagari_700Bold",marginBottom:60, marginTop:20 }}>Følg racet live, set kørene mellemtider, og afstande.</Text>
-          <Text style={{ color: 'white', fontFamily: "AnekDevanagari_700Bold", fontSize: 24, }}>Giv os dine tanker om racet der køre nu.</Text>
-          <TouchableOpacity 
-          
-          style={{ backgroundColor: '#112045', borderRadius: 10, paddingVertical: 12, paddingHorizontal: 16, marginTop: 20, alignItems: 'center' }}
-           onPress={() => navigation.navigate('Leaderboard')}>
-            <Text style={{ color: 'white', fontSize: 24, fontFamily: "AnekDevanagari_700Bold" }}>Gå til Live stats</Text>
-         
-          </TouchableOpacity>
-        </View>
-         <View style={[styles.trendingTab, { backgroundColor: '#112045' }]}>
-          <Text style={{ fontSize: 32, color: 'white', fontFamily: "SpecialGothicExpandedOne_400Regular" }}>Ny vild data! </Text>
-            <Text style={{ fontSize: 24,  color: 'white', fontFamily: "AnekDevanagari_700Bold",marginBottom:60, marginTop:20 }}>Tjek de nye tider ud, rookies kommer på banen i toppen!</Text>
-          <TouchableOpacity style={{ backgroundColor: '#CD1F4D', borderRadius: 10, paddingVertical: 12, paddingHorizontal: 16, marginTop: 'auto', alignItems: 'center', }} onPress={() => navigation.navigate('DataScreen')}>
-            <Text style={{ color: 'white', fontSize: 24, fontFamily: "AnekDevanagari_700Bold" }}>Data</Text>
-         
-          </TouchableOpacity>
-        </View>
-         <View style={[styles.trendingTab, { backgroundColor: '#CD1F4D' }]}>
-          <Text style={{ fontSize: 32, color: 'white', fontFamily: "SpecialGothicExpandedOne_400Regular" }}>Ny vild data! </Text>
-        
-          
-          <TouchableOpacity style={{ backgroundColor: '#112045', borderRadius: 10, paddingVertical: 12, paddingHorizontal: 16, marginTop: 'auto', alignItems: 'center' }} onPress={() => navigation.navigate('LiveStats')}>
-            <Text style={{ color: 'white', fontSize: 24, fontFamily: "AnekDevanagari_700Bold" }}>Gå til Live stats</Text>
-         
-          </TouchableOpacity>
-        </View>
+        {NewsArticles.slice(0, 4).map((article, idx) => (
+          <View
+            key={article.id}
+            style={[
+              styles.trendingTab,
+              { backgroundColor: idx % 2 === 0 ? '#CD1F4D' : '#112045' }
+            ]}
+          >
+            <Text style={{ fontSize: 32, color: 'white', fontFamily: "SpecialGothicExpandedOne_400Regular" }}>
+              {article.title}
+            </Text>
+            <Text style={{
+              fontSize: 24,
+              color: 'white',
+              fontFamily: "AnekDevanagari_700Bold",
+              marginBottom: 60,
+              marginTop: 20
+            }}>
+              {article.subtitle}
+            </Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: idx % 2 === 0 ? '#112045' : '#CD1F4D',
+                borderRadius: 10,
+                paddingVertical: 12,
+                paddingHorizontal: 16,
+                marginTop: 'auto',
+                alignItems: 'center',
+              }}
+              onPress={() => navigation.navigate('NewsArticles', { article })}
+            >
+              <Text style={{ color: 'white', fontSize: 24, fontFamily: "AnekDevanagari_700Bold" }}>
+                Læs mere
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ))}
       </ScrollView>
     </View>
   );

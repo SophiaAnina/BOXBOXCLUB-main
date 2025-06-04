@@ -35,7 +35,7 @@ export default function Start({}) {
     }
   }, [showLogin]);
 
-  
+  if (!fontsLoaded) return null;
 
   return (
     <ScrollView style={styles.container}>

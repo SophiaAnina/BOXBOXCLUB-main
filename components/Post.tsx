@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { StyleSheet, View, FlatList, Text, TextInput, Alert, TouchableOpacity, RefreshControl, Animated, ScrollView } from 'react-native'
 import { supabase } from '../lib/supabase'
-import { Button, Avatar } from '@rneui/themed'
+
 import { FontAwesome } from '@expo/vector-icons';
 
 import { useFonts, DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold} from "@expo-google-fonts/dynapuff";
@@ -170,6 +170,7 @@ export default function MessagesScreen() {
           </Animated.View>
         )}
         <FlatList
+          style={styles.messageList}
           data={messages}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
@@ -182,6 +183,21 @@ export default function MessagesScreen() {
               title="Træk ned for at opdatere"
               titleColor="#CD1F4D"
             />
+          }
+          ListHeaderComponent={
+            loading ? (
+              <Animated.View style={[styles.tireSpinnerOverlay, {
+                transform: [{
+                  rotate: spinAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ['0deg', '360deg']
+                  })
+                }]
+              }]}>
+                <FontAwesome name="circle" size={40} color="#CD1F4D" />
+                <Text style={styles.pullText}>Slip for at opdatere</Text>
+              </Animated.View>
+            ) : null
           }
         />
       </View>
@@ -226,8 +242,10 @@ const styles = StyleSheet.create({
   fontFamily:'SpecialGothicExpandedOne_400Regular',
   fontSize: 28,
   color:'#112045',
-  marginTop:50,
+
+  marginBottom: 40,
   marginLeft: 20,
+  
   },
   postButton: {
     position: 'absolute',

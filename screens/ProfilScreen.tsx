@@ -20,6 +20,8 @@ const Stack = createStackNavigator();
 export default function ProfileScreen({profileData}) {
 
   const [fontsLoaded] = useFonts({ DynaPuff_400Regular, AnekDevanagari_400Regular, SpecialGothicExpandedOne_400Regular });
+  if (!fontsLoaded) return null;
+
   const navigation = useNavigation();
   const [username, setUsername] = useState<string | null>(null);
   const [niveau, setNiveau] = useState<string | null>(null);

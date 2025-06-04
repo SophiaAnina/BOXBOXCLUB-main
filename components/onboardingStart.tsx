@@ -23,6 +23,7 @@ AppState.addEventListener('change', (state) => {
 
 export default function OnboardingStart() {
   const [fontsLoaded] = useFonts({ DynaPuff_400Regular, AnekDevanagari_400Regular, SpecialGothicExpandedOne_400Regular});
+  if (!fontsLoaded) return null;
   const navigation = useNavigation();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

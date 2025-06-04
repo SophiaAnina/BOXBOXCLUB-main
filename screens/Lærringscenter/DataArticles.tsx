@@ -7,6 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 export default function DataArticles({ route }) {
   const article = route?.params?.article;
   const navigation = useNavigation();
+  const [fontsLoaded] = useFonts({ AnekDevanagari_400Regular, SpecialGothicExpandedOne_400Regular });
+  if (!fontsLoaded) return null;
 
   if (!article) {
     return (

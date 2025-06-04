@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "sportradar-racing",
+      "source": "@sportradar-racing/v3#1udj1wma5dz4bv",
+      "integrity": "sha512-ys8aJ7hxPUUdNmC/Qh6hJKipQAUQP/GH2HD6vB2ZR9lDLZ6LKbA48XVxy4C5m3UYx/D5QTjQUZgQ9E/Xcp5r/Q==",
+      "installerVersion": "6.1.3"
+    }
+  ]
+}

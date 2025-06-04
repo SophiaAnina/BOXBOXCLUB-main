@@ -70,6 +70,7 @@ const faceColorLabels = [
 
 export default function Avatar() {
   const [fontsLoaded] = useFonts({ DynaPuff_400Regular, AnekDevanagari_400Regular, SpecialGothicExpandedOne_400Regular });
+  if (!fontsLoaded) return null;
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0); // 0: face, 1: eyes
@@ -78,52 +79,6 @@ export default function Avatar() {
   const [selectedFaceColor, setSelectedFaceColor] = useState<string>(faceColors[0]);
   const [selectedFaceColorIndex, setSelectedFaceColorIndex] = useState<number>(0);
 
-  async function signInWithEmail() {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-
-    if (error) Alert.alert(error.message);
-    setLoading(false);
-  }
-
-  async function signUpWithEmail() {
-    setLoading(true);
-    try {
-      const {
-        data: { user, session },
-        error,
-      } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-      });
-
-      if (error) {
-        Alert.alert(error.message);
-        return;
-      }
-
-      if (!user) {
-        Alert.alert('Please check your inbox for email verification!');
-        return;
-      }
-
-      // Insert user profile data into the `profiles` table
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert([{ id: user.id, username: email.split('@')[0], bio: '', avatar_url: '' }]);
-
-      if (profileError) {
-        Alert.alert('Error creating profile:', profileError.message);
-      }
-    } catch (error) {
-      console.error('Error during sign-up:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
 
   async function saveAvatarToProfile() {
     if (!selectedFace || !selectedEye) {
@@ -157,7 +112,7 @@ export default function Avatar() {
       if (updateError) {
         Alert.alert('Error updating profile:', updateError.message);
       } else {
-        Alert.alert('Avatar saved successfully!');
+        Alert.alert('Profile updated successfully!');
       }
     } catch (error) {
       console.error('Error saving avatar:', error);
@@ -214,7 +169,7 @@ export default function Avatar() {
       <ScrollView style={styles.container}>
         {step === 0 ? (
           <>
-            <Text style={styles.title}>Hvilken hjelm repræsentere dig?</Text>
+            <Text style={styles.title}>Hvilken hjelm repræsenterer dig?</Text>
             <View style={styles.faceGrid}>
               {faceColors.map((color, idx) => (
                 <View key={color} style={styles.faceGridItem}>
@@ -255,7 +210,7 @@ export default function Avatar() {
           </>
         ) : (
           <>
-            <Text style={styles.title}>Hvilket udtryk repræsentere dig bedst?</Text>
+            <Text style={styles.title}>Hvilket udtryk repræsenterer dig bedst?</Text>
             <View style={styles.eyesContainer}>
               {Object.keys(eye).slice(0, 8).map((key) => {
                 const EyeComponent = eye[key];
@@ -307,7 +262,7 @@ export default function Avatar() {
 const styles = StyleSheet.create({
   container: {
    padding: 20,
-    
+  backgroundColor:'#FCFAED',
   },
   verticallySpaced: {
     paddingTop: 4,
@@ -317,7 +272,7 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: 30,
     backgroundColor: '#CD1F4D',
-    height:350,
+    height: 320,
   },
   headerText: {
     position: 'absolute',
@@ -336,16 +291,15 @@ const styles = StyleSheet.create({
     bottom: -35,
   },
   title: {
-    fontSize: 27,
+    fontSize: 20,
     marginBottom: 18,
-    fontWeight: 'bold',
     color: '#112045',
     fontFamily: 'SpecialGothicExpandedOne_400Regular',
     width: '100%',
     textAlign: 'center',
   },
   label: {
-    fontWeight: 'bold',
+   
     fontSize: 20,
     color: '#112045',
     width: '100%',
@@ -391,7 +345,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 24,
-    fontWeight: 'bold',
     fontFamily: 'AnekDevanagari_400Regular',
     textAlign: 'center',
   },
@@ -401,7 +354,7 @@ const styles = StyleSheet.create({
     width: 120,
     paddingVertical: 10,
     marginLeft: 10,
-    marginTop: 10,
+    marginTop: 20,
     flexDirection: 'row',
     paddingHorizontal: 10,
     justifyContent: 'space-between',
@@ -410,14 +363,13 @@ const styles = StyleSheet.create({
   backButtonText: {
     color: 'white',
     fontSize: 17,
-    fontWeight: 'bold',
-    fontFamily: 'AnekDevanagari_400Regular',
+    fontFamily: 'SpecialGothicExpandedOne_400Regular',
     justifyContent: 'space-between',
   },
   AvatarContainer: {
     backgroundColor: '#112045',
-    width: 227,
-    height: 227,
+    width: 200,
+    height: 200,
     borderRadius: 500,
     justifyContent: 'center',
     alignItems: 'center',
@@ -427,10 +379,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-   
     marginBottom: 20,
   },
   eye: {
+  
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
@@ -438,11 +390,11 @@ const styles = StyleSheet.create({
  eyeWrapper: {
   backgroundColor: '#D8A4B2',
   padding: 10,
-  marginBottom: 5,
   borderRadius: 50,
   width: '100%',
   borderWidth: 3,
-  borderColor: 'transparent', 
+  marginBottom: 10,
+  borderColor: 'transparent', // Default: no border
  },
  selectedEyeWrapper: {
   borderColor: '#CD1F4D', // Highlight border color
@@ -453,18 +405,20 @@ const styles = StyleSheet.create({
     color: '#112045',
     textAlign: 'center',
     fontFamily: 'AnekDevanagari_400Regular',
-    marginBottom: 20,
   },
   faceGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
-    marginBottom: 20,
+   
   },
   faceGridItem: {
     width: '22%', // Changed from '24%' to '22%' for 4 per row
     alignItems: 'center',
+    
+    // Optionally, add marginHorizontal for spacing:
     marginHorizontal: '1.5%',
+  
     borderRadius: 50,
     borderWidth: 3,
     borderColor: 'transparent',
@@ -475,7 +429,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: 'transparent',
     padding: 3,
-    backgroundColor: 'white', // or your preferred background
+    backgroundColor: '#D8A4B2', // or your preferred background
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -4,10 +4,23 @@ import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { supabase } from "../../lib/supabase";
 import { SvgXml } from "react-native-svg";
+import { useFonts, DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold} from "@expo-google-fonts/dynapuff";
+import { AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, } from "@expo-google-fonts/anek-devanagari";
+import { SpecialGothicExpandedOne_400Regular } from "@expo-google-fonts/special-gothic-expanded-one";
+
 
 export default function PlayerScoreboard() {
     const navigation = useNavigation();
     const [profiles, setProfiles] = React.useState<any[]>([]);
+
+    let [fontsLoaded] = useFonts({
+        DynaPuff_400Regular,
+        // ...add other fonts here if needed
+      });
+    
+      if (!fontsLoaded) {
+        return null; // or a loading indicator
+      }
 
     React.useEffect(() => {
         const fetchProfiles = async () => {

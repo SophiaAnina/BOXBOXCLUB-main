@@ -8,6 +8,9 @@ export default function NewsArticles({ route }) {
   const article = route?.params?.article;
   const navigation = useNavigation();
 
+  const [fontsLoaded] = useFonts({ AnekDevanagari_400Regular, SpecialGothicExpandedOne_400Regular });
+  if (!fontsLoaded) return null;
+
   if (!article) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -17,19 +20,24 @@ export default function NewsArticles({ route }) {
   }
 
   return (
-    <ScrollView style={{ flex: 1, padding: 20 }}>
-       <TouchableOpacity onPress={() => navigation.navigate('NewsScreen')} style={styles.backButton}>
+    <View style={{ flex: 1, paddingHorizontal: 20, paddingVertical: 80 }}>
+      <TouchableOpacity onPress={() => navigation.navigate('NewsScreen')} style={styles.backButton}>
         <AntDesign name="arrowleft" size={24} color="black" />
         <Text style={styles.backButtonText}>Tilbage</Text>
       </TouchableOpacity>
-      <Text style={{ fontSize: 24, fontFamily: "SpecialGothicExpandedOne_400Regular"}}>{article.title}</Text>
-      {article.sections.map((section) => (
-        <View key={section.id} style={{ marginVertical: 10 }}>
-          <Text style={{ fontSize: 18, fontFamily: "AnekDevanagari_400Regular"}}>{section.subtitle}</Text>
-          <Text style={{ fontFamily: "AnekDevanagari_400Regular"}}>{section.content}</Text>
-        </View>
-      ))}
-    </ScrollView>
+      <Text style={{ fontSize: 24, fontFamily: "SpecialGothicExpandedOne_400Regular" }}>{article.title}</Text>
+      {/* Render sections if present, otherwise render content */}
+      {Array.isArray(article.sections) && article.sections.length > 0 ? (
+        article.sections.map((section) => (
+          <View key={section.id} style={{ marginVertical: 10 }}>
+            <Text style={{ fontSize: 18, fontFamily: "AnekDevanagari_400Regular" }}>{section.subtitle}</Text>
+            <Text style={{ fontFamily: "AnekDevanagari_400Regular" }}>{section.content}</Text>
+          </View>
+        ))
+      ) : (
+        <Text style={{ fontFamily: "AnekDevanagari_400Regular", marginVertical: 10 }}>{article.content}</Text>
+      )}
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -51,3 +59,4 @@ const styles = StyleSheet.create({
     fontFamily: "SpecialGothicExpandedOne_400Regular",
   },
 });
+// Add your articles data here

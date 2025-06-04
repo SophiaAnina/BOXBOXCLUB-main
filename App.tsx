@@ -41,13 +41,11 @@ import Foundation from '@expo/vector-icons/Foundation';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Avatar from './components/Avatar';
-
-
 import Leaderboard from './screens/Stilling/screens/LiveRaceScreen';
 import KalenderScreen from './screens/Stilling/screens/Kalender';
 import TeamsStandingScreen from './screens/Stilling/screens/TeamStanding';
 import DriverStandingScreen from './screens/Stilling/screens/DriverStanding';
-import Nyheder from './components/Nyheder';
+
 // Create a navigation ref
 export const navigationRef = createNavigationContainerRef();
 

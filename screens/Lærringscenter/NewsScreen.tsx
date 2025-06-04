@@ -4,7 +4,7 @@ import { useFonts, AnekDevanagari_400Regular } from "@expo-google-fonts/anek-dev
 import { SpecialGothicExpandedOne_400Regular } from "@expo-google-fonts/special-gothic-expanded-one";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
-import { F1NewsArticles } from "./Data";
+import { NewsArticles } from "./Data";
 
 
 
@@ -13,113 +13,104 @@ export default function NewsScreen() {
     const [search, setSearch] = useState("");
 
     const handlePress = (article) => {
-        navigation.navigate('F1NewsArticles', { article });
+        navigation.navigate('NewsArticles', { article });
     };
 
     // Filter articles by title based on search input (case-insensitive)
-    const filteredArticles = F1NewsArticles.filter(article =>
+    const filteredArticles = NewsArticles.filter(article =>
         article.title.toLowerCase().includes(search.toLowerCase())
     );
 
+    // Combine the "stacked" and "grid" articles into one list for FlatList
+    const stackedArticles = filteredArticles.slice(0, 4);
+    const gridArticles = filteredArticles.slice(4, 11);
+
+    const [fontsLoaded] = useFonts({ AnekDevanagari_400Regular, SpecialGothicExpandedOne_400Regular });
+    if (!fontsLoaded) return null;
+
     return (
-        <ScrollView style={styles.container}>          
+        <View style={styles.container}>
             <Text style={styles.title}>Lær’ mere</Text>
             <View style={styles.inputContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Søg her"
-                    value={search}
-                    onChangeText={setSearch}/>
+                <TextInput style={styles.input} placeholder="Søg her" value={search} onChangeText={setSearch} />
             </View>
             <View style={styles.scrollContainer}>
-                    <ScrollView
-                      horizontal
-                      showsHorizontalScrollIndicator={false}
-                      contentContainerStyle={styles.tabScroll}>
-                      <TouchableOpacity style={styles.tabIndicator} onPress={() => navigation.navigate('NewsScreen')}>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tabScroll}>
+                    <TouchableOpacity style={styles.tabIndicator} onPress={() => navigation.navigate('NewsScreen')}>
                         <Text style={styles.tabIndicatorText}>Nyt</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('DataScreen')}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('DataScreen')}>
                         <Text style={styles.tabText}>Data</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity 
-                        style={styles.tab}
-                        onPress={() => navigation.navigate('ReglerScreen' )} // Navigate to ReglerScreen
-                      >
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('ReglerScreen')}>
                         <Text style={styles.tabText}>Regler</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('DriverScreen')}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('DriverScreen')}>
                         <Text style={styles.tabText}>Kørere</Text>
-                      </TouchableOpacity>
-                    </ScrollView>
+                    </TouchableOpacity>
+                </ScrollView>
             </View>
-          
-            <Text style={styles.title}>Nyt</Text>
-            
-            <FlatList style={{ marginBottom: 20 }}
-              data={filteredArticles.slice(0, 4)}
-              keyExtractor={(item) => item.id.toString()}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              renderItem={({ item, index }) => (
-              <TouchableOpacity
-                  style={{
-                    backgroundColor: (index + 1) % 3 === 0 ? '#CD1F4D' : '#112045', // Every third item is red
-                    padding: 16,
-                    borderRadius: 8,
-                    marginBottom: 12,
-                    marginRight: 8,
-                    flex: 1,
-                    minWidth: 0,
-}}
-                  onPress={() => handlePress(item)}>
-                  <Text style={{ color: 'white', fontFamily:"AnekDevanagari_400Regular", fontSize: 16 }}
-                    numberOfLines={1}
-                    ellipsizeMode="tail">
-                    {item.subtitle}
-                  </Text>
-                  <Text
-                    style={{ color: 'white', fontSize: 18, fontFamily:"SpecialGothicExpandedOne_400Regular" }}
-                  >
-                    {item.title}
-      </Text>
-              </TouchableOpacity>)}/>
-              <ScrollView style={{ marginTop: 20, marginBottom: 80, height: 300, position: 'relative' }}>
-                {filteredArticles.slice(4, 11).map((item, index) => (
-                  <TouchableOpacity
-                    key={item.id.toString()}
-                    style={{
-                      backgroundColor: index % 2 === 0 ? '#112045' : '#CD1F4D', // Alternate colors
-                      padding: 16,
-                      paddingBottom: 50,
-                      borderRadius: 8,
-                      position: 'absolute',
-                      top: index * 100,
-                      zIndex: filteredArticles.length + index,
-                      width: '100%',
-                    }}
-                    onPress={() => handlePress(item)}>
-                    <Text style={{ color: 'white', fontFamily:"AnekDevanagari_400Regular", fontSize: 16 }}
-                      numberOfLines={1}
-                      ellipsizeMode="tail">
-                      {item.subtitle}
-                    </Text>
-                    <Text
-                      style={{ color: 'white', fontSize: 18, fontFamily:"SpecialGothicExpandedOne_400Regular" }}
+            <Text style={styles.title}>Ugens data</Text>
+            <FlatList
+                style={{ height: 150, marginBottom: 20 }}
+                data={gridArticles}
+                keyExtractor={(item) => item.id.toString()}
+                horizontal
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item, index }) => (
+                    <TouchableOpacity
+                        style={[ styles.GridArticle,{ backgroundColor: (index + 1) % 3 === 0 ? '#CD1F4D' : '#112045'}]}
+                        onPress={() => handlePress(item)}
                     >
-                      {item.title}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-       </ScrollView>
+                        <Text style={{ color: 'white', fontFamily: "AnekDevanagari_400Regular", fontSize: 16 }}
+                            numberOfLines={1}
+                            ellipsizeMode="tail">
+                            {item.subtitle}
+                        </Text>
+                        <Text
+                            style={{ color: 'white', fontSize: 18, fontFamily: "SpecialGothicExpandedOne_400Regular" }}
+                        >
+                            {item.title}
+                        </Text>
+                    </TouchableOpacity>
+                )}
+            />
+            
+            <FlatList
+                style={{ }}
+                data={gridArticles}
+                keyExtractor={(item) => item.id.toString()}
+                numColumns={2}
+                
+                columnWrapperStyle={{ justifyContent: 'space-between' }}
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item, index }) => (
+                    <TouchableOpacity
+                        style={[ styles.GridArticle,{ backgroundColor: (index + 1) % 3 === 0 ? '#CD1F4D' : '#112045'}]}
+                        onPress={() => handlePress(item)}
+                    >
+                        <Text style={{ color: 'white', fontFamily: "AnekDevanagari_400Regular", fontSize: 16 }}
+                            numberOfLines={1}
+                            ellipsizeMode="tail">
+                            {item.subtitle}
+                        </Text>
+                        <Text
+                            style={{ color: 'white', fontSize: 18, fontFamily: "SpecialGothicExpandedOne_400Regular" }}
+                        >
+                            {item.title}
+                        </Text>
+                    </TouchableOpacity>
+                )}
+            />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 60,
+        paddingTop: 60,
         paddingHorizontal: 20,
+        overflow:'scroll'
     },
     title: {
         marginTop: 20,
@@ -150,8 +141,7 @@ const styles = StyleSheet.create({
   tabScroll: {
     paddingHorizontal: 10,
     alignItems: 'center',
-    
-    width: '150%',
+    width: '120%',
   },
   tab: {
     backgroundColor: '#112045',
@@ -177,5 +167,17 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         fontFamily: "SpecialGothicExpandedOne_400Regular",
-    }
+    },
+
+    GridArticle:{
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 12,
+    marginRight: 8,
+    flex: 1,
+    minWidth: 0,
+    maxHeight: 150,
+   
+   
+}
 });

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "BOXBOXCLUB",
-    "slug": "BOXBOXCLUB",
+    "slug": "boxboxclub",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,13 +20,20 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.sophiaanina.boxboxclub"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "e13bf7b2-8278-42ba-8122-b6f538335bfe"
+      }
+    },
+    "owner": "sophiaanina"
   }
 }

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, StyleSheet, View, AppState, TextInput, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { supabase } from '../lib/supabase';
-import AvatarList from './PickAvatar';
 import { useNavigation } from '@react-navigation/native';
 
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-import { useFonts, DynaPuff_400Regular } from '@expo-google-fonts/dynapuff';
-import { AnekDevanagari_400Regular } from '@expo-google-fonts/anek-devanagari';
-import { SpecialGothicExpandedOne_400Regular } from '@expo-google-fonts/special-gothic-expanded-one';
+import { useFonts, DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold} from "@expo-google-fonts/dynapuff";
+import { AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, } from "@expo-google-fonts/anek-devanagari";
+import { SpecialGothicExpandedOne_400Regular } from "@expo-google-fonts/special-gothic-expanded-one";
 
 import Frida from '../assets/FridaFart/frida-dobbelt-thumps-up.svg';
 import { useAuth } from '../App'; // Import useAuth
@@ -45,22 +44,21 @@ export default function NewUser() {
     try {
       // Sign up the user
       const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
+        email: email,
+        password: password,
       });
+      console.log(data, error);
 
       if (error) {
-        console.error('Sign-up error:', error);
-        Alert.alert('Noget gik galt', error.message);
+        console.error('Sign-up error:', error, JSON.stringify(error));
+        Alert.alert('Noget gik galt', error.message || JSON.stringify(error));
         return;
       }
 
       const user = data?.user;
 
       if (!user || !user.id) {
-        Alert.alert(
-          'Tjek din indbakke for at bekræfte din mail, før du kan fortsætte.'
-        );
+        
         return;
       }
 
@@ -95,18 +93,7 @@ export default function NewUser() {
     }
   }
 
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      Alert.alert("Logout failed", error.message);
-    } else {
-      setSession(null); // Clear session in context
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "Start" }],
-      });
-    }
-  };
+
 
   return (
     <ScrollView style={styles.container}>
@@ -188,7 +175,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   label: {
-    fontWeight: 'bold',
+    fontFamily:'SpecialGothicExpandedOne_400Regular',
     fontSize: 20,
     color: '#112045',
     width: '100%',
@@ -234,7 +221,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 24,
-    fontWeight: 'bold',
     fontFamily: 'AnekDevanagari_400Regular',
     textAlign: 'center',
   },
@@ -253,7 +239,6 @@ const styles = StyleSheet.create({
   backButtonText: {
     color: 'white',
     fontSize: 17,
-    fontWeight: 'bold',
     fontFamily: 'DynaPuff_400Regular',
     justifyContent: 'space-between',
   },

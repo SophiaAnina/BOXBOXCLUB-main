@@ -84,6 +84,9 @@ export default function QuizScreen() {
   const [score, setScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
 
+  const [fontsLoaded] = useFonts({ DynaPuff_400Regular, DynaPuff_500Medium, DynaPuff_600SemiBold, DynaPuff_700Bold, AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, SpecialGothicExpandedOne_400Regular });
+  if (!fontsLoaded) return null;
+
   const handleAnswer = (isCorrect, index) => {
     setSelectedAnswer(index);
     if (isCorrect && selectedAnswer === null) {

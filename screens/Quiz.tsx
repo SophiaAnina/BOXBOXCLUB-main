@@ -21,6 +21,7 @@ export default function Quiz() {
         AnekDevanagari_400Regular,  
         SpecialGothicExpandedOne_400Regular,
     });
+    if (!fontsLoaded) return null;
 
     const [username, setUsername] = useState<string | null>(null);
     const [xp, setXp] = useState<number | null>(null);
@@ -59,10 +60,6 @@ export default function Quiz() {
 
         fetchUserData();
     }, []);
-
-    if (!fontsLoaded) {
-        return null;
-    }
 
     // Add this function to Quiz.tsx (copy from ProfilScreen.tsx)
     function getTitleByXp(xp: number | null) {

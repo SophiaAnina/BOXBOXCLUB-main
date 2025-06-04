@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 const Reglerarticles = [
   {
@@ -404,181 +404,8 @@ const DataArticles = [
     ]
   }
 ];
-const F1DriverArticles = [
-  {
-    id: 1,
-    title: "Lewis Hamilton Legende",
-    subtitle: "Hamilton Historie Kort",
-    sections: [
-      {
-        id: "begyndelsen",
-        subtitle: "Tidlige år",
-        content: `Lewis Hamilton begyndte at køre gokart som otteårig og blev hurtigt bemærket af McLaren. I 2007 debuterede han i Formel 1 og imponerede med en andenplads i mesterskabet allerede i sin første sæson.`
-      },
-      {
-        id: "meritter",
-        subtitle: "Titler og rekorder",
-        content: `Hamilton har vundet 7 verdensmesterskaber og har flest Grand Prix-sejre og pole positions nogensinde. Han er kendt for sin evne i regnvejrsløb og stærke kvalifikationer.`
-      }
-    ]
-  },
-  {
-    id: 2,
-    title: "Max Verstappen Konge",
-    subtitle: "Verstappen Historie Kort",
-    sections: [
-      {
-        id: "tidlig-karriere",
-        subtitle: "Rekordtidlig debut",
-        content: `Max Verstappen debuterede som 17-årig i Formel 1 i 2015 og blev den yngste løbsvinder i historien ved Spaniens Grand Prix 2016.`
-      },
-      {
-        id: "dominans",
-        subtitle: "Ny dominans",
-        content: `Verstappen har domineret sporten siden 2021 og vundet tre verdensmesterskaber i træk. Han er kendt for sin aggressive kørestil og uovertrufne kontrol.`
-      }
-    ]
-  },
-  {
-    id: 3,
-    title: "Fernando Alonso Comeback",
-    subtitle: "Alonso Historie Kort",
-    sections: [
-      {
-        id: "karriere",
-        subtitle: "Tidlige triumfer",
-        content: `Alonso blev verdensmester i 2005 og 2006 med Renault og brød dermed Michael Schumachers dominans.`
-      },
-      {
-        id: "come-back",
-        subtitle: "Comeback og nutid",
-        content: `Efter en pause fra sporten vendte Alonso tilbage i 2021 og kører nu for Aston Martin, hvor han stadig viser storform.`
-      }
-    ]
-  },
-  {
-    id: 4,
-    title: "Charles Leclerc Stjerne",
-    subtitle: "Leclerc Historie Kort",
-    sections: [
-      {
-        id: "tidlig-karriere",
-        subtitle: "Monaco-talentet",
-        content: `Charles Leclerc startede sin karriere i gokart og blev hurtigt bemærket for sit talent. Han debuterede i Formel 1 i 2018 og blev hurtigt Ferraris førstekører.`
-      },
-      {
-        id: "ferrari",
-        subtitle: "Ferrari og sejre",
-        content: `Leclerc har vundet flere Grand Prix'er og er kendt for sin fart i kvalifikation og stærke præstationer under pres.`
-      }
-    ]
-  },
-  {
-    id: 5,
-    title: "George Russell Fremtiden",
-    subtitle: "Russell Historie Kort",
-    sections: [
-      {
-        id: "tidlig-karriere",
-        subtitle: "Fra junior til F1",
-        content: `George Russell vandt Formel 2-mesterskabet i 2018 og debuterede i Formel 1 med Williams. Han blev kendt for sin hurtighed og konsistens.`
-      },
-      {
-        id: "mercedes",
-        subtitle: "Mercedes-chancen",
-        content: `Russell fik sin chance hos Mercedes i 2022 og tog sin første Grand Prix-sejr samme år. Han anses som en af fremtidens stjerner.`
-      }
-    ]
-  },
-  {
-    id: 6,
-    title: "Lando Norris Publikumsyndling",
-    subtitle: "Norris Historie Kort",
-    sections: [
-      {
-        id: "karriere",
-        subtitle: "Ung britisk stjerne",
-        content: `Lando Norris debuterede for McLaren i 2019 og har siden imponeret med sin fart og humor. Han er populær blandt fans og kendt for sin positive attitude.`
-      },
-      {
-        id: "resultater",
-        subtitle: "Podier og potentiale",
-        content: `Norris har opnået flere podieplaceringer og anses som en af de mest lovende unge kørere i feltet.`
-      }
-    ]
-  },
-  {
-    id: 7,
-    title: "Sergio Perez Erfaring",
-    subtitle: "Perez Historie Kort",
-    sections: [
-      {
-        id: "karriere",
-        subtitle: "Mexicansk fighter",
-        content: `Sergio Perez har været i Formel 1 siden 2011 og er kendt for sin evne til at spare dæk og lave stærke løbspræstationer.`
-      },
-      {
-        id: "red-bull",
-        subtitle: "Red Bull og sejre",
-        content: `Perez har vundet flere løb for Red Bull og har spillet en vigtig rolle i teamets succes.`
-      }
-    ]
-  },
-  {
-    id: 8,
-    title: "Carlos Sainz Stabilitet",
-    subtitle: "Sainz Historie Kort",
-    sections: [
-      {
-        id: "karriere",
-        subtitle: "Fra Toro Rosso til Ferrari",
-        content: `Carlos Sainz har kørt for flere teams, herunder Toro Rosso, Renault, McLaren og Ferrari. Han er kendt for sin stabilitet og taktiske evner.`
-      },
-      {
-        id: "ferrari",
-        subtitle: "Sejr og podier",
-        content: `Sainz tog sin første Grand Prix-sejr i 2022 og har opnået flere podieplaceringer for Ferrari.`
-      }
-    ]
-  },
-  {
-    id: 9,
-    title: "Valtteri Bottas Teamplayer",
-    subtitle: "Bottas Historie Kort",
-    sections: [
-      {
-        id: "karriere",
-        subtitle: "Fra Williams til Mercedes",
-        content: `Valtteri Bottas debuterede i Formel 1 med Williams og blev senere teamkammerat med Lewis Hamilton hos Mercedes, hvor han bidrog til flere konstruktørtitler.`
-      },
-      {
-        id: "alfa-romeo",
-        subtitle: "Ny rolle",
-        content: `Bottas kører nu for Alfa Romeo og er kendt for sin professionalisme og hurtighed.`
-      }
-    ]
-  },
-  {
-    id: 10,
-    title: "Oscar Piastri Talentet",
-    subtitle: "Piastri Historie Kort",
-    sections: [
-      {
-        id: "junior",
-        subtitle: "Stjerneskud fra Australien",
-        content: `Oscar Piastri vandt både Formel 3 og Formel 2-mesterskabet i første forsøg. Han debuterede i Formel 1 med McLaren i 2023.`
-      },
-      {
-        id: "fremtiden",
-        subtitle: "Fremtidens mand",
-        content: `Piastri har allerede vist stort potentiale og forventes at blive en af de næste store stjerner i sporten.`
-      }
-    ]
-  }
-];
 
-
-const F1NewsArticles = [
+const NewsArticles = [
   {
     id: 1,
     title: "Verstappen Forlænger Kontrakt",
@@ -662,4 +489,45 @@ const F1NewsArticles = [
 ];
 
 export default Reglerarticles;
-export { DataArticles, F1DriverArticles, F1NewsArticles };
+export { DataArticles, NewsArticles };
+
+// --- F1DriverArticles: Load from API ---
+export function useF1DriverArticles() {
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch("https://your-api-url.com/f1driverarticles") // <-- Replace with your real API endpoint
+      .then(res => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.json();
+      })
+      .then(setData)
+      .catch(err => setError(err.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  return { data, loading, error };
+}
+
+
+export function F1DriverArticlesComponent() {
+  const { data: drivers, loading, error } = useF1DriverArticles();
+
+  if (loading) return <div>Indlæser...</div>;
+  if (error) return <div>Fejl: {error}</div>;
+
+  return (
+    <div>
+      {drivers.map(driver => (
+        <div key={driver.id}>
+          <h2>{driver.title}</h2>
+          <p>{driver.subtitle}</p>
+         
+        </div>
+      ))}
+    </div>
+  );
+}

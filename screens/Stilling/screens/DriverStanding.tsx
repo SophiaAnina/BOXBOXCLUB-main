@@ -24,6 +24,9 @@ export default function DriversStandingScreen() {
         fetchDriverStandings();
     }, []);
 
+    const [fontsLoaded] = useFonts({ DynaPuff_400Regular, DynaPuff_500Medium, DynaPuff_600SemiBold, DynaPuff_700Bold, AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, SpecialGothicExpandedOne_400Regular });
+    if (!fontsLoaded) return null;
+
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20, marginBottom: 20, marginTop: 40 }}>
@@ -40,7 +43,7 @@ export default function DriversStandingScreen() {
                               style={{ backgroundColor: '#112045', borderRadius: 10, paddingVertical: 12, paddingHorizontal: 16, marginRight: 10 }}
                               onPress={() => navigation.navigate('Leaderboard')}
                             >
-                              <Text style={{ color: 'white', fontSize: 20 }}>Live fra Miami</Text>
+                              <Text style={{ color: 'white', fontSize: 20 }}>Leaderboard</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                               style={{ backgroundColor: '#CD1F4D', borderRadius: 10, paddingVertical: 12, paddingHorizontal: 16, marginRight: 10 }}
@@ -125,7 +128,7 @@ const styles = StyleSheet.create({
     position: {
         color: '#fff',
         fontFamily: "SpecialGothicExpandedOne_400Regular",
-        width: 50
+        width: 60
     },
     driver: {
         color: '#fff',

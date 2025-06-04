@@ -9,6 +9,13 @@ import Car from "../assets/svg/Car.svg";
 import Racetrack from "../assets/svg/Racetrack.svg";
 
 export default function PostStart({ onDone }) {
+  const [fontsLoaded] = useFonts({
+    DynaPuff_400Regular,
+    AnekDevanagari_400Regular,
+    SpecialGothicExpandedOne_400Regular,
+  });
+  if (!fontsLoaded) return null;
+
   return (
     <View style={styles.container}>
       <Frida width={300} height={300} style={styles.frida} />

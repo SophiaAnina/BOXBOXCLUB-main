@@ -4,7 +4,9 @@ import { supabase } from '../lib/supabase';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import Frida from '../assets/FridaFart/frida-dæk.svg';
-
+import { useFonts, DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold} from "@expo-google-fonts/dynapuff";
+import { AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, } from "@expo-google-fonts/anek-devanagari";
+import { SpecialGothicExpandedOne_400Regular } from "@expo-google-fonts/special-gothic-expanded-one";
 export default function OnboardingStep3({ route }: any) {
   const { selectedLevel, email, password } = route.params; // <-- add email, password
   const navigation = useNavigation();
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     position: 'absolute',
-    top: '30%',
+    top: '35%',
     right: '20%',
     color: 'white',
     fontFamily: 'DynaPuff_400Regular',
@@ -76,18 +78,18 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 27,
-    marginTop: 18,
+    marginTop: 40,
     marginBottom: 18,
-    fontWeight: 'bold',
+   
     color: '#112045',
     fontFamily: 'SpecialGothicExpandedOne_400Regular',
     width: '100%',
     textAlign: 'center',
   },
   text: {
-    fontSize: 24,
+    fontSize: 20,
     color: 'black',
-    fontFamily: 'AnekDevanagari_400Regular',
+    fontFamily: 'AnekDevanagari_500Medium',
     width: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -107,8 +109,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 24,
-    fontWeight: 'bold',
-    fontFamily: 'AnekDevanagari_400Regular',
+    fontFamily: 'AnekDevanagari_600SemiBold',
     textAlign: 'center',
   },
   backButton: {
@@ -125,8 +126,7 @@ const styles = StyleSheet.create({
   backButtonText: {
     color: 'white',
     fontSize: 17,
-    fontWeight: 'bold',
-    fontFamily: 'Anek Devanagari',
+    fontFamily: 'SpecialGothicExpandedOne_400Regular',
     justifyContent: 'space-between',
   },
 });

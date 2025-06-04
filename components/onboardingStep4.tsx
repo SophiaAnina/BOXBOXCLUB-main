@@ -6,43 +6,40 @@ import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import Frida from '../assets/FridaFart/frida-done-flag-glad.svg';
 import RacetrackRed from '../assets/svg/RacetrackRed.svg';
-import ConfettiCannon from 'react-native-confetti-cannon';
-
-
-
-
+import * as Updates from 'expo-updates';
 import { useFonts, DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold} from "@expo-google-fonts/dynapuff";
 import { AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, } from "@expo-google-fonts/anek-devanagari";
 import { SpecialGothicExpandedOne_400Regular } from "@expo-google-fonts/special-gothic-expanded-one";
-
-
-
+import ConfettiRain from './ConfettiRain';
 export default function OnboardingStep4({ }) {
   
   const [fontsLoaded] = useFonts({ DynaPuff_400Regular, AnekDevanagari_400Regular, SpecialGothicExpandedOne_400Regular });
+  if (!fontsLoaded) return null;
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const route = useRoute();
- 
-  const [showConfetti, setShowConfetti] = useState(false);
+
   return (
     <View style={styles.container}>
-         
+        <ConfettiRain style={styles.confetti} />
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate('OnboardingStep3')} style={styles.backButton}>
+      
+        <TouchableOpacity onPress={() => navigation.navigate('OnboardingStep2')} style={styles.backButton}>
           <AntDesign name="arrowleft" size={24} color="white" />
           <Text style={styles.backButtonText}>Tilbage</Text>
         </TouchableOpacity>
         <Text style={styles.headerText}>Lad os så komme igang!</Text>
-        <Frida width={210} height={210} style={styles.frida} />
+        <Frida width={250} height={250} style={styles.frida} />
       </View>
-      <Text style={styles.title}>Det var det</Text>
+      <Text style={styles.title}>Det var det!</Text>
       <Text style={styles.text}>Lad os komme igang! </Text>
      
         <TouchableOpacity
           style={styles.button}
           disabled={loading}
-          onPress={() => navigation.navigate('HomeScreen')}
+          onPress={async () => {
+            await Updates.reloadAsync();
+          }}
         >
           <Text style={styles.buttonText}>Til Appen</Text>
         </TouchableOpacity>
@@ -56,8 +53,9 @@ export default function OnboardingStep4({ }) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1, // <-- Add this line
     marginTop: 40,
-    padding: 12,
+  
   },
   verticallySpaced: {
     paddingTop: 4,
@@ -68,16 +66,17 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     backgroundColor: '#CD1F4D',
     aspectRatio: 1,
+    zIndex: 1,
   },
   headerText: {
     position: 'absolute',
-    top: '45%',
+    top: '40%',
     left: '40%',
     color: 'white',
     fontFamily: 'DynaPuff_400Regular',
     fontSize: 24,
     transform: [{ rotate: '20.957deg' }],
-    width: '60%',
+    width: '50%',
   
   },
   frida: {
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     right: 100,
-    bottom: -20,
+    bottom: -30,
   },
   title: {
     fontSize: 27,
@@ -110,9 +109,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   text: {
-    fontSize: 24,
+    fontSize: 20,
     color: 'black',
-    fontFamily: 'AnekDevanagari_400Regular',
+    fontFamily: 'AnekDevanagari_500Medium',
     width: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -138,6 +137,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#CD1F4D',
     borderRadius: 16,
     textAlign: 'center',
+    zIndex: 10,
   },
   buttonText: {
     color: 'white',
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   backButtonText: {
     color: 'white',
     fontSize: 17,
-    fontFamily: 'AnekDevanagari_600SemiBold',
+    fontFamily: 'SpecialGothicExpandedOne_400Regular',
     justifyContent: 'space-between',
   },
   racetrack: {
@@ -167,10 +167,7 @@ const styles = StyleSheet.create({
   },
   confetti: {
     position: 'absolute',
-    width: '100%',
-    height: '100%',
-    top: 0,
     left: 0,
-    zIndex: 9999,
+    zIndex: 2,
   },
 })

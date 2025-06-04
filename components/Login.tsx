@@ -3,7 +3,10 @@ import { Alert, StyleSheet, View, AppState,Button, TextInput, Text, TouchableOpa
 import { supabase } from '../lib/supabase'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
-import HomeScreen from '../screens/HomeScreen';
+import { useFonts, DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold} from "@expo-google-fonts/dynapuff";
+import { AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, } from "@expo-google-fonts/anek-devanagari";
+import { SpecialGothicExpandedOne_400Regular } from "@expo-google-fonts/special-gothic-expanded-one";
+
 AppState.addEventListener('change', (state) => {
   if (state === 'active') {
     supabase.auth.startAutoRefresh()
@@ -23,46 +26,19 @@ export default function Login() {
       email: email,
       password: password,
     })
-    navigation.navigate('HomeScreen')
-    if (error) Alert.alert(error.message)
+    if (error) {
+      Alert.alert(error.message)
+    } else {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'MainApp' }],
+      });
+    }
     setLoading(false)
   }
 
-  async function signUpWithEmail() {
-    setLoading(true);
-    try {
-      const {
-        data: { user, session },
-        error,
-      } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-      });
-
-      if (error) {
-        Alert.alert(error.message);
-        return;
-      }
-
-      if (!user) {
-        Alert.alert('Please check your inbox for email verification!');
-        return;
-      }
-
-      // Insert user profile data into the `profiles` table
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert([{ id: user.id, username: email.split('@')[0], bio: '', avatar_url: '' }]);
-
-      if (profileError) {
-        Alert.alert('Error creating profile:', profileError.message);
-      }
-    } catch (error) {
-      console.error('Error during sign-up:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const [fontsLoaded] = useFonts({ DynaPuff_400Regular });
+  if (!fontsLoaded) return null;
 
   return (
     <ScrollView style={styles.container}>

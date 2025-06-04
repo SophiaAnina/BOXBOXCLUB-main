@@ -9,6 +9,9 @@ export default function ReglerArticles({ route }) {
 
   const navigation = useNavigation();
 
+  const [fontsLoaded] = useFonts({ AnekDevanagari_400Regular, SpecialGothicExpandedOne_400Regular });
+  if (!fontsLoaded) return null;
+
   return (
     <ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingVertical: 100 }}>
      <TouchableOpacity onPress={() => navigation.navigate('ReglerScreen')} style={styles.backButton}>

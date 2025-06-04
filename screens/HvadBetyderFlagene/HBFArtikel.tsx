@@ -14,6 +14,9 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function HBFArtikel() {
     const navigation = useNavigation();
+    const [fontsLoaded] = useFonts({ DynaPuff_400Regular, DynaPuff_500Medium, DynaPuff_600SemiBold, DynaPuff_700Bold, AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, SpecialGothicExpandedOne_400Regular });
+
+    if (!fontsLoaded) return null;
 
     return(
         <ScrollView style={styles.container}>

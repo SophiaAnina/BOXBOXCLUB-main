@@ -9,6 +9,8 @@ import { AntDesign } from "@expo/vector-icons";
 import Frida from "../../assets/FridaFart/frida-gronflag.svg";
 export default function HBFStart() {
   const navigation = useNavigation();
+  const [fontsLoaded] = useFonts({ DynaPuff_400Regular, DynaPuff_500Medium, DynaPuff_600SemiBold, DynaPuff_700Bold, AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, SpecialGothicExpandedOne_400Regular });
+  if (!fontsLoaded) return null;
     
   return (
     <View style={styles.container}>

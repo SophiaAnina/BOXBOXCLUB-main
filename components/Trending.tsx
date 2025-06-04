@@ -3,12 +3,12 @@ import { supabase } from "../lib/supabase";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import Frida from '../assets/FridaFart/frida-thumps-up.svg';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation
-import { F1NewsArticles } from '../screens/Lærringscenter/Data';
+import { NewsArticles } from "../screens/Lærringscenter/Data";
 
 import { useFonts, DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold} from "@expo-google-fonts/dynapuff";
 import { AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, } from "@expo-google-fonts/anek-devanagari";
 import { SpecialGothicExpandedOne_400Regular } from "@expo-google-fonts/special-gothic-expanded-one";
-export default function Nyheder( {}) {
+export default function Trending( {}) {
   const navigation = useNavigation(); // Access navigation object
   const [username, setUsername] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);
@@ -46,14 +46,17 @@ export default function Nyheder( {}) {
       fetchData();
     }, []);
     
+    const [fontsLoaded] = useFonts({ DynaPuff_400Regular, DynaPuff_500Medium, DynaPuff_600SemiBold, DynaPuff_700Bold, AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, SpecialGothicExpandedOne_400Regular });
+    if (!fontsLoaded) return null;
+    
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <View style={{ position : "absolute", top:150, left: 20, zIndex: 1 }}>
-        <Text style={{ fontSize: 32, fontFamily: "DynaPuff_400Regular" }}>
+      <View style={{ position : "absolute", top:100, left: 20, zIndex: 1 }}>
+        <Text style={{ fontSize: 28, fontFamily: "DynaPuff_400Regular" }}>
           Hvad så  {username || 'Bruger'}?
         </Text>
      
-          <Text style={{ fontSize: 32, fontFamily: "DynaPuff_400Regular" }}>Clara til tjeneste!</Text>
+          <Text style={{ fontSize: 20, fontFamily: "DynaPuff_400Regular" }}>Clara til tjeneste!</Text>
       
       </View>
       <View style={styles.scrollContainer}>
@@ -62,11 +65,11 @@ export default function Nyheder( {}) {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.tabScroll}
         >
-          <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('HomeScreen')}>
-            <Text style={{ color: 'white', fontSize:20, fontFamily: "AnekDevanagari_400Regular" }}>Trending</Text>
+          <TouchableOpacity style={styles.tabIndicator} onPress={() => navigation.navigate('Trending')}>
+            <Text style={{ color: 'white', fontSize:20, fontFamily: "SpecialGothicExpandedOne_400Regular" }}>Trending</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tabIndicator} onPress={() => navigation.navigate('Nyheder')}>
-            <Text style={{ color: 'white', fontSize:20, fontFamily:"SpecialGothicExpandedOne_400Regular" }}>Nyheder</Text>
+          <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('HomeScreen')}>
+            <Text style={{ color: 'white', fontSize:20, fontFamily:"AnekDevanagari_400Regular" }}>Nyheder</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.tab}
@@ -74,7 +77,7 @@ export default function Nyheder( {}) {
           >
             <Text style={{ color: 'white',fontSize:20, fontFamily:"AnekDevanagari_400Regular" }}>Din Profil</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('Kalender')}>
+          <TouchableOpacity style={styles.tab}>
             <Text style={{ color: 'white',fontSize:20, fontFamily:"AnekDevanagari_400Regular" }}>Kalender</Text>
           </TouchableOpacity>
         </ScrollView>
@@ -82,43 +85,49 @@ export default function Nyheder( {}) {
 
       <Frida style={styles.frida} width={180} height={180} />
       <ScrollView
-  style={{position: 'absolute', top: 400,}}
-  horizontal
-  showsHorizontalScrollIndicator={false}
-  contentContainerStyle={{ paddingBottom: 10, paddingTop: 20, paddingHorizontal: 20 }}
->
-  {F1NewsArticles.slice(0, 3).map((article, idx) => (
-    <View
-      key={article.id}
-      style={[
-        styles.trendingTab,
-        { backgroundColor: idx % 2 === 0 ? '#CD1F4D' : '#112045' }
-      ]}
-    >
-      <Text style={{ fontSize: 32, color: 'white', fontFamily: "SpecialGothicExpandedOne_400Regular" }}>
-        {article.title}
-      </Text>
-      <Text
-        numberOfLines={3}
-        ellipsizeMode="tail"
-        style={{ fontSize: 20, color: 'white', fontFamily: "AnekDevanagari_700Bold", marginTop: 20 }}>
-        {article.content}
-      </Text>
-      <TouchableOpacity
-        style={{
-          marginTop: 'auto',
-          backgroundColor: idx % 2 === 0 ? '#112045' : '#CD1F4D', // Invert color
-          paddingVertical: 10,
-          borderRadius: 8,
-          alignItems: 'center'
-        }}
-        onPress={() => navigation.navigate('NewsArticles', { article })}
+        style={{position: 'absolute', top: 350,}}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 10, paddingTop: 20, paddingHorizontal: 20 }}
       >
-        <Text style={{ color: 'white', fontFamily: "AnekDevanagari_700Bold", fontSize: 24 }}>Læs mere</Text>
-      </TouchableOpacity>
-    </View>
-  ))}
-</ScrollView>
+        {NewsArticles.slice(6, 10).map((article, idx) => (
+          <View
+            key={article.id}
+            style={[
+              styles.trendingTab,
+              { backgroundColor: idx % 2 === 0 ? '#CD1F4D' : '#112045' }
+            ]}
+          >
+            <Text style={{ fontSize: 32, color: 'white', fontFamily: "SpecialGothicExpandedOne_400Regular" }}>
+              {article.title}
+            </Text>
+            <Text style={{
+              fontSize: 24,
+              color: 'white',
+              fontFamily: "AnekDevanagari_700Bold",
+              marginBottom: 60,
+              marginTop: 20
+            }}>
+              {article.subtitle}
+            </Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: idx % 2 === 0 ? '#112045' : '#CD1F4D',
+                borderRadius: 10,
+                paddingVertical: 12,
+                paddingHorizontal: 16,
+                marginTop: 'auto',
+                alignItems: 'center',
+              }}
+              onPress={() => navigation.navigate('NewsArticles', { article })}
+            >
+              <Text style={{ color: 'white', fontSize: 24, fontFamily: "AnekDevanagari_700Bold" }}>
+                Læs mere
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -126,7 +135,7 @@ export default function Nyheder( {}) {
 const styles = StyleSheet.create({
   frida: {
     position: 'absolute',
-    top: 80,
+    top: 40,
     right:-70,
     transform: [{ rotate: '-45.353deg' }],
   },
@@ -135,6 +144,7 @@ const styles = StyleSheet.create({
     height: '100%',
     position: 'absolute',
     top: -100,
+   
   },
   tabScroll: {
     paddingHorizontal: 10,

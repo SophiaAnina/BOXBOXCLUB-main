@@ -3,6 +3,9 @@ import { FlatList, Text, View, StyleSheet, ScrollView, TouchableOpacity } from "
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { bahrainGPResults } from '../../../data/bahrainGPResults'; // adjust path if needed
+import { useFonts, DynaPuff_400Regular,DynaPuff_500Medium, DynaPuff_600SemiBold,DynaPuff_700Bold} from "@expo-google-fonts/dynapuff";
+import { AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, } from "@expo-google-fonts/anek-devanagari";
+import { SpecialGothicExpandedOne_400Regular } from "@expo-google-fonts/special-gothic-expanded-one";
 
 export default function Leaderboard() {
   const navigation = useNavigation();
@@ -24,70 +27,94 @@ export default function Leaderboard() {
     "Alpine": "#0090FF",
   };
 
-  useEffect(() => {
-    // Blinking dot effect
-    const interval = setInterval(() => setBlink(prev => !prev), 500);
-    return () => clearInterval(interval);
-  }, []);
+  let [fontsLoaded] = useFonts({
+    DynaPuff_400Regular,
+    // ...add other fonts here if needed
+  });
 
   useEffect(() => {
-    let intervalId;
-
     async function fetchLiveData() {
-      const apiKey = "t7JbrRVDzbK1QLtrix0u76ydstqMV74uyRhH5Rnj"; // replace with your Sportradar API key
-
       try {
-        // 1️⃣ Get the season's schedule
-        const scheduleUrl = `https://api.sportradar.com/formula1/trial/v2/en/sport_events/schedule.json?api_key=${apiKey}`;
-        const scheduleRes = await axios.get(scheduleUrl);
-        const events = scheduleRes.data.sport_events;
+        // 1. Get all sessions, sorted by latest
+        const sessionsRes = await fetch('https://api.openf1.org/v1/sessions');
+        const sessions = await sessionsRes.json();
 
-        // 2️⃣ Find the event that's currently live
-        const liveEvent = events.find(event => event.status === "in_progress");
+        // 2. Find a live session (status = "active" or "started")
+        let liveSession = sessions.find(
+          s => s.session_status && (s.session_status.toLowerCase() === "active" || s.session_status.toLowerCase() === "started")
+        );
 
-        if (liveEvent) {
-          const stageId = liveEvent.id;
-
-          // 3️⃣ Fetch live summary for that event
-          const summaryUrl = `https://api.sportradar.com/formula1/trial/v2/en/sport_events/${stageId}/summary.json?api_key=${apiKey}`;
-          const summaryRes = await axios.get(summaryUrl);
-          const summary = summaryRes.data;
-
-          // 4️⃣ Map drivers/competitors standings
-          const standings = summary.sport_event_status.competitors;
-
-          const mappedDrivers = standings.map((entry, idx) => ({
-            id: entry.id || idx,
-            position: entry.qualifying_position || entry.position || idx + 1,
-            driver: entry.name,
-            team: entry.team?.name || entry.team_name || "Unknown",
-            lapTime: entry.best_lap_time || "-",
-          }));
-
-          setIsLive(true);
-          setTrackName(summary.sport_event.venue.name || "Live");
-          setDrivers(mappedDrivers);
-
-        } else {
-          // No live race
-          setIsLive(false);
-          setTrackName("Ingen løb i gang");
-          setDrivers([]);
+        // 3. If no live session, use the latest completed race session (type "Race")
+        let sessionToUse = liveSession;
+        if (!sessionToUse) {
+          // Find the latest completed race session
+          const raceSessions = sessions
+            .filter(s => s.session_type === "Race")
+            .sort((a, b) => new Date(b.date_end) - new Date(a.date_end));
+          sessionToUse = raceSessions[0];
         }
 
-      } catch (err) {
-        console.error("Fetch error", err);
-        setIsLive(false);
-        setTrackName("Bahrain GP");
-        setDrivers(bahrainGPResults);
+        if (!sessionToUse) {
+          setDrivers([]);
+          setTrackName("");
+          return;
+        }
+
+        const meetingKey = sessionToUse.meeting_key;
+
+        // Fetch positions
+        const posRes = await fetch(`https://api.openf1.org/v1/position?meeting_key=${meetingKey}`);
+        const positions = await posRes.json();
+
+        // Fetch drivers
+        const driversRes = await fetch(`https://api.openf1.org/v1/drivers?meeting_key=${meetingKey}`);
+        const driversData = await driversRes.json();
+
+        // Fetch stints (for tyre info)
+        const stintsRes = await fetch(`https://api.openf1.org/v1/stints?meeting_key=${meetingKey}`);
+        const stintsData = await stintsRes.json();
+
+        // Fetch pit stops
+        const pitRes = await fetch(`https://api.openf1.org/v1/pit?meeting_key=${meetingKey}`);
+        const pitData = await pitRes.json();
+
+        // Merge, sort, and limit to 20 drivers
+        const mappedDrivers = positions
+          .map((item) => {
+            const driverInfo = driversData.find(d => d.driver_number === item.driver_number) || {};
+            const stintInfo = stintsData.filter(s => s.driver_number === item.driver_number);
+            const pitCount = pitData.filter(p => p.driver_number === item.driver_number).length;
+            const currentTyre = stintInfo.length > 0 ? stintInfo[stintInfo.length - 1].compound : '-' ;
+
+            return {
+              id: item.driver_number,
+              position: item.position,
+              driver: driverInfo.full_name || item.driver_number,
+              team: item.team_name,
+              lapTime: item.best_lap_time || '-',
+              carNumber: item.driver_number,
+              tyre: currentTyre,
+              pitStops: pitCount,
+            };
+          })
+          .filter(d => d.position && d.position <= 20)
+          .sort((a, b) => a.position - b.position)
+          .slice(0, 20);
+
+        setDrivers(mappedDrivers);
+        setTrackName(sessionToUse.meeting_name || "");
+      } catch (error) {
+        setDrivers([]);
+        setTrackName("");
       }
     }
 
     fetchLiveData();
-    intervalId = setInterval(fetchLiveData, 15000); // Poll every 15 seconds
-
-    return () => clearInterval(intervalId);
+    const interval = setInterval(fetchLiveData, 10000);
+    return () => clearInterval(interval);
   }, []);
+
+  if (!fontsLoaded) return null;
 
   return (
     <View style={styles.container}>
@@ -116,7 +143,7 @@ export default function Leaderboard() {
             {trackName
               ? isLive
                 ? `Live fra ${trackName}`
-                : `Scores fra ${trackName}`
+                : `Leaderbord`
               : ""}
           </Text>
         </TouchableOpacity>

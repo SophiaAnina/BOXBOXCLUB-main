@@ -14,6 +14,9 @@ export default function Result() {
   const route = useRoute();
   const { score, total } = route.params;
 
+  const [fontsLoaded] = useFonts({ DynaPuff_400Regular, DynaPuff_500Medium, DynaPuff_600SemiBold, DynaPuff_700Bold, AnekDevanagari_400Regular, AnekDevanagari_500Medium, AnekDevanagari_600SemiBold, AnekDevanagari_700Bold, SpecialGothicExpandedOne_400Regular });
+  if (!fontsLoaded) return null;
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
